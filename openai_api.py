@@ -88,9 +88,14 @@ class LLMChat:
                 
                 # Add user message and image
                 if image is not None:
-                    # Convert ComfyUI tensor to PIL Image
-                    pil_image = Image.fromarray(np.clip(255. * image.cpu().numpy().squeeze(), 0, 255).astype(np.uint8))
+                    # Convert ComfyUI tensor to PIL Image with explicit cleanup
+                    tensor_cpu = image.cpu()
+                    numpy_array = np.clip(255. * tensor_cpu.numpy().squeeze(), 0, 255).astype(np.uint8)
+                    pil_image = Image.fromarray(numpy_array)
                     base64_image = self.pil_to_base64(pil_image)
+
+                    # Explicit cleanup
+                    del tensor_cpu, numpy_array, pil_image
                     
                     input_content.append({
                         "role": "user",
@@ -117,9 +122,14 @@ class LLMChat:
                     messages.append({"role": "system", "content": system_message.strip()})
                 
                 if image is not None:
-                    # Convert ComfyUI tensor to PIL Image
-                    pil_image = Image.fromarray(np.clip(255. * image.cpu().numpy().squeeze(), 0, 255).astype(np.uint8))
+                    # Convert ComfyUI tensor to PIL Image with explicit cleanup
+                    tensor_cpu = image.cpu()
+                    numpy_array = np.clip(255. * tensor_cpu.numpy().squeeze(), 0, 255).astype(np.uint8)
+                    pil_image = Image.fromarray(numpy_array)
                     base64_image = self.pil_to_base64(pil_image)
+
+                    # Explicit cleanup
+                    del tensor_cpu, numpy_array, pil_image
                     
                     user_content = [
                         {"type": "text", "text": user_message.strip()},

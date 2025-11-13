@@ -40,6 +40,7 @@ The standout feature of this collection - an advanced image loader that hopefull
 
 ### 🖼️ Image Processing (`nhk/image`)
 - **🖼️ Image Loader With Previews** - Advanced image loading with folder browsing ⭐
+- **📸 Load Image Series** - Sequentially load images with auto-increment, reset, and progress tracking
 - **📦 Image Grid Batch** - Combine unlimited images into batch tensors
 - **🎯 Image Grid Composite** - Create visual grids with configurable spacing and backgrounds
 
@@ -56,6 +57,9 @@ The standout feature of this collection - an advanced image loader that hopefull
 ### 🤖 AI & Machine Learning (`nhk/ai`)
 - **👁️ Qwen Vision** - Analyze images with Ollama's Qwen2.5VL vision model
 - **🤖 OpenAI API** - Chat with OpenAI GPT-4/GPT-5 models with vision support (requires API key)
+
+### 🎬 Video Processing (`nhk/video`)
+- **💾 Save Video (Short)** - Save videos with 3-digit filename counter (000-999) instead of 5-digit
 
 ## 🚀 Key Features
 
