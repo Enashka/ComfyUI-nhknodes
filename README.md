@@ -30,36 +30,38 @@ The standout feature of this collection - an advanced image loader that hopefull
 2. Restart ComfyUI
 3. Nodes will appear in organized categories under `nhk`
 
-## 🗂️ Other cool nodes
+## 🗂️ Node catalog
 
 ### 🔤 Text Processing (`nhk/text`)
-- **📝 Simple Text Input** - Clean text input with pass-through output
-- **📄 Text Display** - View text content in the UI while passing it through
-- **📝 Text Combiner** - Merge unlimited text inputs with dynamic connections and custom separator
-- **📝 Text Template** - Template engine with placeholder replacement (e.g., "The [text_1] walks in the [text_2]")
+- **📝 Simple Text Input** – Minimal text entry node that just forwards its value.
+- **📄 Text Display** – Shows any incoming string inside the UI while keeping the data flowing.
+- **🧩 Text Combiner** – Unlimited text inputs with automatic sockets and configurable separator.
+- **🧷 Text Template** – Lightweight templating (`The [text_1] walks in the [text_2]`) with numbered placeholders.
 
 ### 🖼️ Image Processing (`nhk/image`)
-- **🖼️ Image Loader With Previews** - Advanced image loading with folder browsing ⭐
-- **📸 Load Image Series** - Sequentially load images with auto-increment, reset, and progress tracking
-- **📦 Image Grid Batch** - Combine unlimited images into batch tensors
-- **🎯 Image Grid Composite** - Create visual grids with configurable spacing and backgrounds
+- **🖼️ Image Loader With Previews** – The featured browser with searchable folders, previews, and sorting.
+- **📸 Load Image Series** – Auto-incrementing sequence loader with reset/progress tracking.
+- **📦 Image Grid Batch** – Stacks arbitrary images into a batch tensor for downstream samplers.
+- **🎯 Image Grid Composite** – Creates presentation grids with gutters, padding, and background control.
+- **📏 Visual Resizer** – Drops any image onto a custom canvas size with precise offsets.
+- **🧑 Add Headroom** – Shrinks the subject within the original canvas to create breathing room up top.
+- **🎨 Edit with Krita** – Sends a frame to Krita, waits for edits, and re-imports it into the workflow.
 
 ### ⚙️ Workflow Utilities (`nhk/utility`)
-- **🔄 Cycling Switch** - Automatically cycle through unlimited inputs with configurable stay duration
-- **🚪 Interval Gate** - Controls workflow branching with interval-based on/off switching
-- **🔀 Double Switch - In** - A/B switch with pairs of inputs (ex: img and text pairs)
-- **🔀 Double Switch - Out** - Routes one double input to either A or B double outputs
-- **⏱️ Execution Counter** - Count executions and auto-stop queues, used to circumvent Comfy 100 runs limit.
-- **📐 Size Picker** - Model-optimized presets for Flux, SDXL, and Qwen
-- **📍 Set Node** - Create variable tunnels for cleaner graphs
-- **📤 Get Node** - Retrieve values from Set nodes
+- **🔄 Cycling Switch** – Rotates through unlimited inputs, staying on each for a configurable number of runs.
+- **🚪 Interval Gate** – Turns a branch on/off every N executions (perfect for “every 5th image” flows).
+- **🔀 Double Switch (In/Out)** – Paired A/B switches that route image/text tuples together.
+- **⏱️ Execution Counter** – Counts queue runs, stops when a limit is reached, and shows progress.
+- **📐 Size Picker** – Flux/SDXL/Qwen-optimized resolution presets with handy metadata.
+- **🔊 Play Sound** – Small notification node that plays an audio file when a queue finishes.
 
-### 🤖 AI & Machine Learning (`nhk/ai`)
-- **👁️ Qwen Vision** - Analyze images with Ollama's Qwen2.5VL vision model
-- **🤖 OpenAI API** - Chat with OpenAI GPT-4/GPT-5 models with vision support (requires API key)
+### 🤖 AI & Media (`nhk/ai`)
+- **🦙 Ollama API** – Local chat/vision models with hidden thinking output and optional image prompts.
+- **🤖 OpenAI API** – GPT‑4/GPT‑5 chat with optional vision input (requires `OPENAI_API_KEY`).
+- **🎬 Sora Video Generation** – REST client for OpenAI Sora 2 / Sora 2 Pro text-to-video jobs (API key required).
 
-### 🎬 Video Processing (`nhk/video`)
-- **💾 Save Video (Short)** - Save videos with 3-digit filename counter (000-999) instead of 5-digit
+### 🎞️ Video Output (`nhk/video`)
+- **💾 Save Video (Short)** – Variant of Comfy’s save node that uses a 3‑digit counter (`000`‑`999`) for tidier filenames.
 
 ## 🚀 Key Features
 
@@ -72,27 +74,22 @@ The standout feature of this collection - an advanced image loader that hopefull
 
 ## 📋 Requirements
 
-### For OpenAI API Node
+### For OpenAI API & Sora nodes
 - OpenAI API key in `.env` file:
   ```
   OPENAI_API_KEY=your_api_key_here
   ```
-- Supports GPT-4 (gpt-4o, gpt-4o-mini, chatgpt-4o-latest) and GPT-5 (gpt-5, gpt-5-mini, gpt-5-nano) models
-- Vision capabilities for image analysis with all models
+- GPT nodes support gpt-4o, gpt-4o-mini, chatgpt-4o-latest, plus gpt-5 / gpt-5-mini / gpt-5-nano.
+- Sora node currently targets `sora-2` and `sora-2-pro` with optional image reference input.
 
-### For Qwen Vision Node  
-- Ollama installed and running
-- Qwen2.5VL model pulled in Ollama
+### For Ollama API Node
+- Ollama server running locally (`ollama serve`)
+- Pull at least one supported model (`ollama pull qwen3-vl:8b`, etc.)
+- Optional vision input works automatically when the selected model supports it
 
-## 🔧 Development
-
-This collection follows strict coding standards:
-- Consistent documentation headers
-- Emoji prefixes for all nodes
-- Hover tooltips via `DESCRIPTION` attributes
-- Organized category structure
-
-See `CLAUDE.md` for detailed development guidelines.
+### For Edit with Krita Node
+- Krita available either as AppImage, system install, or Flatpak
+- Writable directory for round-tripping frames (default `/home/nhk/workspace/editing`)
 
 ## 📄 License
 
