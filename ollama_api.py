@@ -25,9 +25,11 @@ class OllamaChat:
         return {
             "required": {
                 "model": ([
+                    "qwen3:8b",
                     "qwen3-vl:8b",
+                    "llama3.2-vision:11b",
                     "gemma3-27b-it-q8"
-                ], {"default": "qwen3-vl:8b"}),
+                ], {"default": "qwen3:8b"}),
                 "system_message": ("STRING", {
                     "multiline": True,
                     "default": "",

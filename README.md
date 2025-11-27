@@ -40,7 +40,7 @@ The standout feature of this collection - an advanced image loader that hopefull
 
 ### 🖼️ Image Processing (`nhk/image`)
 - **🖼️ Image Loader With Previews** – The featured browser with searchable folders, previews, and sorting.
-- **📸 Load Image Series** – Auto-incrementing sequence loader with reset/progress tracking.
+- **📸 Load Image Series** – Sequence loader with two modes (single_image/random). Use control_after_generate=increment for auto-advancing.
 - **📦 Image Grid Batch** – Stacks arbitrary images into a batch tensor for downstream samplers.
 - **🎯 Image Grid Composite** – Creates presentation grids with gutters, padding, and background control.
 - **📏 Visual Resizer** – Drops any image onto a custom canvas size with precise offsets.
@@ -58,10 +58,6 @@ The standout feature of this collection - an advanced image loader that hopefull
 ### 🤖 AI & Media (`nhk/ai`)
 - **🦙 Ollama API** – Local chat/vision models with hidden thinking output and optional image prompts.
 - **🤖 OpenAI API** – GPT‑4/GPT‑5 chat with optional vision input (requires `OPENAI_API_KEY`).
-- **🎬 Sora Video Generation** – REST client for OpenAI Sora 2 / Sora 2 Pro text-to-video jobs (API key required).
-
-### 🎞️ Video Output (`nhk/video`)
-- **💾 Save Video (Short)** – Variant of Comfy’s save node that uses a 3‑digit counter (`000`‑`999`) for tidier filenames.
 
 ## 🚀 Key Features
 
@@ -74,13 +70,12 @@ The standout feature of this collection - an advanced image loader that hopefull
 
 ## 📋 Requirements
 
-### For OpenAI API & Sora nodes
+### For OpenAI API Node
 - OpenAI API key in `.env` file:
   ```
   OPENAI_API_KEY=your_api_key_here
   ```
 - GPT nodes support gpt-4o, gpt-4o-mini, chatgpt-4o-latest, plus gpt-5 / gpt-5-mini / gpt-5-nano.
-- Sora node currently targets `sora-2` and `sora-2-pro` with optional image reference input.
 
 ### For Ollama API Node
 - Ollama server running locally (`ollama serve`)

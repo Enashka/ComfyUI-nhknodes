@@ -1,7 +1,8 @@
 """
 Loads images from a directory in sequence, by index, or randomly.
 Features:
-- Three modes: single_image (by index), incremental_image (auto-advance), random (by seed)
+- Two modes: single_image (by index), random (by seed)
+- Use control_after_generate=increment for auto-advancing through sequence
 - Reset capability to restart sequences
 - Outputs current position and total count for tracking progress
 - Label-based counter tracking for multiple independent sequences
@@ -22,25 +23,24 @@ def pil2tensor(image):
 
 class LoadImageSeries:
     """
-    Loads images from a directory with three modes:
-    - single_image: Load specific image by index
-    - incremental_image: Load next image in sequence (auto-advances each execution)
+    Loads images from a directory with two modes:
+    - single_image: Load specific image by index (use control_after_generate=increment to auto-advance)
     - random: Load random image using seed
 
     Features:
-    - reset: Set to True to reset incremental counter to first image
+    - reset: Set to True to reset counter to first image
     - Outputs current_index and total_images for progress tracking
     - label: Unique identifier for tracking separate sequences independently
     """
 
-    # In-memory storage for incremental counter per label
+    # In-memory storage for counter per label (used with control_after_generate=increment)
     _counters = {}
 
     @classmethod
     def INPUT_TYPES(cls):
         return {
             "required": {
-                "mode": (["single_image", "incremental_image", "random"],),
+                "mode": (["single_image", "random"],),
                 "path": ("STRING", {"default": '', "multiline": False}),
                 "pattern": ("STRING", {"default": '*', "multiline": False}),
                 "index": ("INT", {"default": 0}),
@@ -86,15 +86,8 @@ class LoadImageSeries:
 
         # Select image based on mode
         if mode == "single_image":
-            if index < 0 or index >= len(image_paths):
-                print(f"Invalid image index {index}. Found {len(image_paths)} images.")
-                return (torch.zeros(1, 512, 512, 3), "", 0, total_images)
-            selected_path = image_paths[index]
-            current_index = index
-
-        elif mode == "incremental_image":
-            # Get current counter for this label
-            current_index = self._counters.get(label, 0)
+            # Get current counter for this label (increments when control_after_generate=increment)
+            current_index = self._counters.get(label, index)
 
             # Wrap around if at end
             if current_index >= len(image_paths):
@@ -102,7 +95,7 @@ class LoadImageSeries:
 
             selected_path = image_paths[current_index]
 
-            # Increment counter for next time
+            # Increment counter for next time (used by control_after_generate)
             self._counters[label] = (current_index + 1) % len(image_paths)
             print(f"Series {label}: Loading image {current_index + 1}/{len(image_paths)}")
 
