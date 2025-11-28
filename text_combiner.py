@@ -11,7 +11,7 @@ class TextCombiner:
         return {
             "required": {
                 "separator": ("STRING", {
-                    "default": "\\n",
+                    "default": "\\n (nhk)",
                     "placeholder": "Enter separator (\\n for line break, --- for divider, etc.)"
                 }),
             },
@@ -47,5 +47,5 @@ NODE_CLASS_MAPPINGS = {
 }
 
 NODE_DISPLAY_NAME_MAPPINGS = {
-    "TextCombiner": "📝 Text Combiner",
+    "TextCombiner": "📝 Text Combiner (nhk)",
 }

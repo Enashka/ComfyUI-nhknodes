@@ -54,5 +54,5 @@ NODE_CLASS_MAPPINGS = {
 }
 
 NODE_DISPLAY_NAME_MAPPINGS = {
-    "ImageGridBatch": "📦 Image Grid Batch"
+    "ImageGridBatch": "📦 Image Grid Batch (nhk)"
 }

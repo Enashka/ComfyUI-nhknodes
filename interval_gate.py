@@ -84,5 +84,5 @@ NODE_CLASS_MAPPINGS = {
 }
 
 NODE_DISPLAY_NAME_MAPPINGS = {
-    "IntervalGate": "🚪 Interval Gate"
+    "IntervalGate": "🚪 Interval Gate (nhk)"
 }

@@ -79,5 +79,5 @@ NODE_CLASS_MAPPINGS = {
 }
 
 NODE_DISPLAY_NAME_MAPPINGS = {
-    "VisualResizer": "📏 Visual Resizer",
+    "VisualResizer": "📏 Visual Resizer (nhk)",
 }

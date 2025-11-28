@@ -40,7 +40,7 @@ class ImageGridComposite:
                     "tooltip": "Spacing between images in pixels"
                 }),
                 "background_color": (["black", "white", "gray", "red", "green", "blue"], {
-                    "default": "black",
+                    "default": "black (nhk)",
                     "tooltip": "Background color for spacing and empty cells"
                 }),
             },
@@ -198,5 +198,5 @@ NODE_CLASS_MAPPINGS = {
 }
 
 NODE_DISPLAY_NAME_MAPPINGS = {
-    "ImageGridComposite": "🎯 Image Grid Composite"
+    "ImageGridComposite": "🎯 Image Grid Composite (nhk)"
 }

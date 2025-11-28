@@ -25,19 +25,19 @@ class OllamaChat:
         return {
             "required": {
                 "model": ([
-                    "qwen3:8b",
-                    "qwen3-vl:8b",
-                    "llama3.2-vision:11b",
+                    "qwen3:8b (nhk)",
+                    "qwen3-vl:8b (nhk)",
+                    "llama3.2-vision:11b (nhk)",
                     "gemma3-27b-it-q8"
                 ], {"default": "qwen3:8b"}),
                 "system_message": ("STRING", {
                     "multiline": True,
-                    "default": "",
+                    "default": " (nhk)",
                     "placeholder": "System prompt"
                 }),
                 "user_message": ("STRING", {
                     "multiline": True,
-                    "default": "",
+                    "default": " (nhk)",
                     "placeholder": "User message"
                 }),
                 "temperature": ("FLOAT", {
@@ -244,7 +244,7 @@ class OllamaChat:
 
             # Call Ollama API
             response = requests.post(
-                "http://localhost:11434/api/generate",
+                "http://localhost:11434/api/generate (nhk)",
                 json=payload,
                 timeout=120
             )
@@ -282,5 +282,5 @@ NODE_CLASS_MAPPINGS = {
 }
 
 NODE_DISPLAY_NAME_MAPPINGS = {
-    "OllamaChat": "🦙 Ollama API",
+    "OllamaChat": "🦙 Ollama API (nhk)",
 }

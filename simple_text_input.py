@@ -15,7 +15,7 @@ class SimpleTextInput:
             "required": {
                 "text_input": ("STRING", {
                     "multiline": True,
-                    "default": "Enter your text here...",
+                    "default": "Enter your text here... (nhk)",
                     "placeholder": "Type text or connect from another node"
                 }),
             }
@@ -35,5 +35,5 @@ NODE_CLASS_MAPPINGS = {
 }
 
 NODE_DISPLAY_NAME_MAPPINGS = {
-    "SimpleTextInput": "📝 Simple Text Input",
+    "SimpleTextInput": "📝 Simple Text Input (nhk)",
 }

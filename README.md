@@ -33,31 +33,31 @@ The standout feature of this collection - an advanced image loader that hopefull
 ## 🗂️ Node catalog
 
 ### 🔤 Text Processing (`nhk/text`)
-- **📝 Simple Text Input** – Minimal text entry node that just forwards its value.
-- **📄 Text Display** – Shows any incoming string inside the UI while keeping the data flowing.
-- **🧩 Text Combiner** – Unlimited text inputs with automatic sockets and configurable separator.
-- **🧷 Text Template** – Lightweight templating (`The [text_1] walks in the [text_2]`) with numbered placeholders.
+- **📝 Simple Text Input** (nhk) – Minimal text entry node that just forwards its value.
+- **📄 Text Display** (nhk) – Shows any incoming string inside the UI while keeping the data flowing.
+- **🧩 Text Combiner** (nhk) – Unlimited text inputs with automatic sockets and configurable separator.
+- **🧷 Text Template** (nhk) – Lightweight templating (`The [text_1] walks in the [text_2]`) with numbered placeholders.
 
 ### 🖼️ Image Processing (`nhk/image`)
-- **🖼️ Image Loader With Previews** – The featured browser with searchable folders, previews, and sorting.
-- **📸 Load Image Series** – Sequence loader with two modes (single_image/random). Use control_after_generate=increment for auto-advancing.
-- **📦 Image Grid Batch** – Stacks arbitrary images into a batch tensor for downstream samplers.
-- **🎯 Image Grid Composite** – Creates presentation grids with gutters, padding, and background control.
-- **📏 Visual Resizer** – Drops any image onto a custom canvas size with precise offsets.
-- **🧑 Add Headroom** – Shrinks the subject within the original canvas to create breathing room up top.
-- **🎨 Edit with Krita** – Sends a frame to Krita, waits for edits, and re-imports it into the workflow.
+- **🖼️ Image Loader With Previews** (nhk) – The featured browser with searchable folders, previews, and sorting.
+- **📸 Load Image Series** (nhk) – Sequence loader with two modes (single_image/random). Use control_after_generate=increment for auto-advancing.
+- **📦 Image Grid Batch** (nhk) – Stacks arbitrary images into a batch tensor for downstream samplers.
+- **🎯 Image Grid Composite** (nhk) – Creates presentation grids with gutters, padding, and background control.
+- **📏 Visual Resizer** (nhk) – Drops any image onto a custom canvas size with precise offsets.
+- **🧑 Add Headroom** (nhk) – Shrinks the subject within the original canvas to create breathing room up top.
+- **🎨 Edit with Krita** (nhk) – Sends a frame to Krita, waits for edits, and re-imports it into the workflow.
 
 ### ⚙️ Workflow Utilities (`nhk/utility`)
-- **🔄 Cycling Switch** – Rotates through unlimited inputs, staying on each for a configurable number of runs.
-- **🚪 Interval Gate** – Turns a branch on/off every N executions (perfect for “every 5th image” flows).
-- **🔀 Double Switch (In/Out)** – Paired A/B switches that route image/text tuples together.
-- **⏱️ Execution Counter** – Counts queue runs, stops when a limit is reached, and shows progress.
-- **📐 Size Picker** – Flux/SDXL/Qwen-optimized resolution presets with handy metadata.
-- **🔊 Play Sound** – Small notification node that plays an audio file when a queue finishes.
+- **🔄 Cycling Switch** (nhk) – Rotates through unlimited inputs, staying on each for a configurable number of runs.
+- **🚪 Interval Gate** (nhk) – Turns a branch on/off every N executions (perfect for “every 5th image” flows).
+- **🔀 Double Switch (In/Out)** (nhk) – Paired A/B switches that route image/text tuples together.
+- **⏱️ Execution Counter** (nhk) – Counts queue runs, stops when a limit is reached, and shows progress.
+- **📐 Size Picker** (nhk) – Flux/SDXL/Qwen-optimized resolution presets with handy metadata.
+- **🔊 Play Sound** (nhk) – Small notification node that plays an audio file when a queue finishes.
 
 ### 🤖 AI & Media (`nhk/ai`)
-- **🦙 Ollama API** – Local chat/vision models with hidden thinking output and optional image prompts.
-- **🤖 OpenAI API** – GPT‑4/GPT‑5 chat with optional vision input (requires `OPENAI_API_KEY`).
+- **🦙 Ollama API** (nhk) – Local chat/vision models with hidden thinking output and optional image prompts.
+- **🤖 OpenAI API** (nhk) – GPT‑4/GPT‑5 chat with optional vision input (requires `OPENAI_API_KEY`).
 
 ## 🚀 Key Features
 

@@ -169,5 +169,5 @@ NODE_CLASS_MAPPINGS = {
 }
 
 NODE_DISPLAY_NAME_MAPPINGS = {
-    "ImageLoaderWithPreviews": "🖼️ Image Loader With Previews",
+    "ImageLoaderWithPreviews": "🖼️ Image Loader With Previews (nhk)",
 }

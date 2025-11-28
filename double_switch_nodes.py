@@ -102,6 +102,6 @@ NODE_CLASS_MAPPINGS = {
 }
 
 NODE_DISPLAY_NAME_MAPPINGS = {
-    "DoubleSwitch": "🔀 Double Switch - In",
-    "DoubleSwitchOut": "🔀 Double Switch - Out",
+    "DoubleSwitch": "🔀 Double Switch - In (nhk)",
+    "DoubleSwitchOut": "🔀 Double Switch - Out (nhk)",
 }

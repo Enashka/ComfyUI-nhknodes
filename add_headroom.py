@@ -105,5 +105,5 @@ NODE_CLASS_MAPPINGS = {
 }
 
 NODE_DISPLAY_NAME_MAPPINGS = {
-    "AddHeadroom": "🧑 Add Headroom",
+    "AddHeadroom": "🧑 Add Headroom (nhk)",
 }

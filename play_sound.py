@@ -39,5 +39,5 @@ NODE_CLASS_MAPPINGS = {
 }
 
 NODE_DISPLAY_NAME_MAPPINGS = {
-    "PlaySound": "🔊 Play Sound",
+    "PlaySound": "🔊 Play Sound (nhk)",
 }

@@ -24,19 +24,19 @@ class LLMChat:
                 "model": ([
                     "gpt-4o", 
                     "gpt-4o-mini", 
-                    "chatgpt-4o-latest",
-                    "gpt-5",
+                    "chatgpt-4o-latest (nhk)",
+                    "gpt-5 (nhk)",
                     "gpt-5-mini", 
                     "gpt-5-nano"
                 ], {"default": "gpt-4o"}),
                 "system_message": ("STRING", {
                     "multiline": True,
-                    "default": "",
+                    "default": " (nhk)",
                     "placeholder": "System prompt"
                 }),
                 "user_message": ("STRING", {
                     "multiline": True,
-                    "default": "",
+                    "default": " (nhk)",
                     "placeholder": "User message"
                 }),
             },
@@ -98,7 +98,7 @@ class LLMChat:
                     del tensor_cpu, numpy_array, pil_image
                     
                     input_content.append({
-                        "role": "user",
+                        "role": "user (nhk)",
                         "content": [
                             {"type": "input_text", "text": user_message.strip()},
                             {"type": "input_image", "image_url": f"data:image/png;base64,{base64_image}"}
@@ -155,5 +155,5 @@ NODE_CLASS_MAPPINGS = {
 }
 
 NODE_DISPLAY_NAME_MAPPINGS = {
-    "LLMChat": "🤖 OpenAI API",
+    "LLMChat": "🤖 OpenAI API (nhk)",
 }
