@@ -13,7 +13,7 @@ class TextTemplate:
         return {
             "required": {
                 "template": ("STRING", {
-                    "default": "The [text_1] walks in the [text_2] (nhk)",
+                    "default": "The [text_1] walks in the [text_2]",
                     "multiline": True,
                     "placeholder": "Enter template with placeholders like [text_1], [text_2], etc."
                 }),

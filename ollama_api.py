@@ -25,19 +25,21 @@ class OllamaChat:
         return {
             "required": {
                 "model": ([
-                    "qwen3:8b (nhk)",
-                    "qwen3-vl:8b (nhk)",
-                    "llama3.2-vision:11b (nhk)",
+                    "qwen3:8b",
+                    "qwen3:30b",
+                    "qwen3:30b-a3b-instruct-2507-q4_K_M",
+                    "qwen3-vl:8b",
+                    "llama3.2-vision:11b",
                     "gemma3-27b-it-q8"
                 ], {"default": "qwen3:8b"}),
                 "system_message": ("STRING", {
                     "multiline": True,
-                    "default": " (nhk)",
+                    "default": "",
                     "placeholder": "System prompt"
                 }),
                 "user_message": ("STRING", {
                     "multiline": True,
-                    "default": " (nhk)",
+                    "default": "",
                     "placeholder": "User message"
                 }),
                 "temperature": ("FLOAT", {
@@ -244,7 +246,7 @@ class OllamaChat:
 
             # Call Ollama API
             response = requests.post(
-                "http://localhost:11434/api/generate (nhk)",
+                "http://localhost:11434/api/generate",
                 json=payload,
                 timeout=120
             )

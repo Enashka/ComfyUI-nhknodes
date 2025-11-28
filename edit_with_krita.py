@@ -33,7 +33,7 @@ class EditWithKrita:
                     "min": 10,
                     "max": 3600,
                     "step": 10,
-                    "display": "number (nhk)",
+                    "display": "number",
                     "tooltip": "Maximum time to wait for edits (seconds)"
                 }),
             },
@@ -43,7 +43,7 @@ class EditWithKrita:
                     "tooltip": "Enable/disable editing - when disabled, image passes through unchanged"
                 }),
                 "edit_directory": ("STRING", {
-                    "default": "/home/nhk/workspace/editing (nhk)",
+                    "default": "/home/nhk/workspace/editing",
                     "tooltip": "Directory where images are saved for editing"
                 }),
                 "notify": ("BOOLEAN", {

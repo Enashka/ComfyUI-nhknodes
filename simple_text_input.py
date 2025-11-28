@@ -15,7 +15,7 @@ class SimpleTextInput:
             "required": {
                 "text_input": ("STRING", {
                     "multiline": True,
-                    "default": "Enter your text here... (nhk)",
+                    "default": "Enter your text here...",
                     "placeholder": "Type text or connect from another node"
                 }),
             }

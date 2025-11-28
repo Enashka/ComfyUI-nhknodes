@@ -22,21 +22,21 @@ class LLMChat:
         return {
             "required": {
                 "model": ([
-                    "gpt-4o", 
-                    "gpt-4o-mini", 
-                    "chatgpt-4o-latest (nhk)",
-                    "gpt-5 (nhk)",
-                    "gpt-5-mini", 
+                    "gpt-4o",
+                    "gpt-4o-mini",
+                    "chatgpt-4o-latest",
+                    "gpt-5",
+                    "gpt-5-mini",
                     "gpt-5-nano"
                 ], {"default": "gpt-4o"}),
                 "system_message": ("STRING", {
                     "multiline": True,
-                    "default": " (nhk)",
+                    "default": "",
                     "placeholder": "System prompt"
                 }),
                 "user_message": ("STRING", {
                     "multiline": True,
-                    "default": " (nhk)",
+                    "default": "",
                     "placeholder": "User message"
                 }),
             },
@@ -98,7 +98,7 @@ class LLMChat:
                     del tensor_cpu, numpy_array, pil_image
                     
                     input_content.append({
-                        "role": "user (nhk)",
+                        "role": "user",
                         "content": [
                             {"type": "input_text", "text": user_message.strip()},
                             {"type": "input_image", "image_url": f"data:image/png;base64,{base64_image}"}

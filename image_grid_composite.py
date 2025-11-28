@@ -40,7 +40,7 @@ class ImageGridComposite:
                     "tooltip": "Spacing between images in pixels"
                 }),
                 "background_color": (["black", "white", "gray", "red", "green", "blue"], {
-                    "default": "black (nhk)",
+                    "default": "black",
                     "tooltip": "Background color for spacing and empty cells"
                 }),
             },

@@ -11,7 +11,7 @@ class TextCombiner:
         return {
             "required": {
                 "separator": ("STRING", {
-                    "default": "\\n (nhk)",
+                    "default": "\\n",
                     "placeholder": "Enter separator (\\n for line break, --- for divider, etc.)"
                 }),
             },
