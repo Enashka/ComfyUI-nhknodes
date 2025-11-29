@@ -42,7 +42,11 @@ class LoadImageSeries:
             "required": {
                 "mode": (["single_image", "random"],),
                 "path": ("STRING", {"default": '', "multiline": False}),
-                "pattern": ("STRING", {"default": '*', "multiline": False}),
+                "pattern": ("STRING", {
+                    "default": '*',
+                    "multiline": False,
+                    "tooltip": "Glob pattern to filter files (e.g., '*.png', 'img_*.jpg', '**/*.png' for recursive)"
+                }),
                 "index": ("INT", {"default": 0}),
                 "seed": ("INT", {"default": 0}),
                 "label": ("STRING", {"default": 'Series001', "multiline": False}),

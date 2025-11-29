@@ -103,7 +103,7 @@ app.registerExtension({
                         const existingValues = new Set();
                         
                         graph._nodes.forEach(otherNode => {
-                            if (otherNode !== this && otherNode.type === 'Set_Node') {
+                            if (otherNode !== this && otherNode.type === 'Set_Node (nhk)') {
                                 existingValues.add(otherNode.widgets[0].value);
                             }
                         });
@@ -149,7 +149,7 @@ app.registerExtension({
                         });
                     }
                     
-                    const allGetters = node.graph._nodes.filter(otherNode => otherNode.type === "Get_Node");
+                    const allGetters = node.graph._nodes.filter(otherNode => otherNode.type === "Get_Node (nhk)");
                     allGetters.forEach(otherNode => {
                         if (otherNode.setComboValues) {
                             otherNode.setComboValues();
@@ -159,7 +159,7 @@ app.registerExtension({
                 
                 this.findGetters = function(graph, checkForPreviousName) {
                     const name = checkForPreviousName ? this.properties.previousName : this.widgets[0].value;
-                    return graph._nodes.filter(otherNode => otherNode.type === 'Get_Node' && otherNode.widgets[0].value === name && name !== '');
+                    return graph._nodes.filter(otherNode => otherNode.type === 'Get_Node (nhk)' && otherNode.widgets[0].value === name && name !== '');
                 }
                 
                 // This node is purely frontend and does not impact the resulting prompt so should not be serialized
@@ -167,7 +167,7 @@ app.registerExtension({
             }
             
             onRemoved() {
-                const allGetters = this.graph._nodes.filter((otherNode) => otherNode.type == "Get_Node");
+                const allGetters = this.graph._nodes.filter((otherNode) => otherNode.type == "Get_Node (nhk)");
                 allGetters.forEach((otherNode) => {
                     if (otherNode.setComboValues) {
                         otherNode.setComboValues([this]);
@@ -177,7 +177,7 @@ app.registerExtension({
         }
         
         LiteGraph.registerNodeType(
-            "Set_Node",
+            "Set_Node (nhk)",
             Object.assign(SetNode, {
                 title: "📍 Set_ (nhk)",
                 description: "Creates a variable tunnel for cleaner graphs - connects to matching Get nodes",
@@ -211,7 +211,7 @@ app.registerExtension({
                     },
                     {
                         values: () => {
-                            const setterNodes = node.graph._nodes.filter((otherNode) => otherNode.type == 'Set_Node');
+                            const setterNodes = node.graph._nodes.filter((otherNode) => otherNode.type == 'Set_Node (nhk)');
                             return setterNodes.map((otherNode) => otherNode.widgets[0].value).sort();
                         }
                     }
@@ -273,7 +273,7 @@ app.registerExtension({
                 
                 this.findSetter = function(graph) {
                     const name = this.widgets[0].value;
-                    const foundNode = graph._nodes.find(otherNode => otherNode.type === 'Set_Node' && otherNode.widgets[0].value === name && name !== '');
+                    const foundNode = graph._nodes.find(otherNode => otherNode.type === 'Set_Node (nhk)' && otherNode.widgets[0].value === name && name !== '');
                     return foundNode;
                 };
                 
@@ -295,7 +295,7 @@ app.registerExtension({
         }
         
         LiteGraph.registerNodeType(
-            "Get_Node",
+            "Get_Node (nhk)",
             Object.assign(GetNode, {
                 title: "📤 Get_ (nhk)",
                 description: "Retrieves value from matching Set node - creates variable tunnels for cleaner graphs",
