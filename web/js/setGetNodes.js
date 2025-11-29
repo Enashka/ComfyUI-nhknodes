@@ -179,7 +179,7 @@ app.registerExtension({
         LiteGraph.registerNodeType(
             "Set_Node",
             Object.assign(SetNode, {
-                title: "📍 Set_",
+                title: "📍 Set_ (nhk)",
                 description: "Creates a variable tunnel for cleaner graphs - connects to matching Get nodes",
             })
         );
@@ -297,7 +297,7 @@ app.registerExtension({
         LiteGraph.registerNodeType(
             "Get_Node",
             Object.assign(GetNode, {
-                title: "📤 Get_",
+                title: "📤 Get_ (nhk)",
                 description: "Retrieves value from matching Set node - creates variable tunnels for cleaner graphs",
             })
         );
