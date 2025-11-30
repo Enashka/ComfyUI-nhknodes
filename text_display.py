@@ -15,7 +15,10 @@ class TextDisplay:
     def INPUT_TYPES(cls):
         return {
             "required": {
-                "text": ("STRING", {"forceInput": True}),
+                "text": ("STRING", {
+                    "forceInput": True,
+                    "tooltip": "Text input to display in UI and pass through"
+                }),
             }
         }
 

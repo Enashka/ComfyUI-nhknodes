@@ -122,9 +122,17 @@ class SizePicker:
                     "480x848 (9:16 Small Portrait)",
                     "544x960 (9:16 Medium Portrait)",
                     "608x1088 (9:16 Large Portrait)",
-                ], {"default": "1024x1024 (1:1 Flux)"}),
-                
-                "batch_size": ("INT", {"default": 1, "min": 1, "max": 64}),
+                ], {
+                    "default": "1024x1024 (1:1 Flux)",
+                    "tooltip": "Choose from model-optimized resolution presets (all multiples of 32)"
+                }),
+
+                "batch_size": ("INT", {
+                    "default": 1,
+                    "min": 1,
+                    "max": 64,
+                    "tooltip": "Number of latent images to generate in batch"
+                }),
                 
                 "width_override": ("INT", {
                     "default": 0, 

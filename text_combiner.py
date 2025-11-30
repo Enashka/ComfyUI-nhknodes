@@ -12,7 +12,8 @@ class TextCombiner:
             "required": {
                 "separator": ("STRING", {
                     "default": "\\n",
-                    "placeholder": "Enter separator (\\n for line break, --- for divider, etc.)"
+                    "placeholder": "Enter separator (\\n for line break, --- for divider, etc.)",
+                    "tooltip": "Separator between combined texts (\\n=newline, \\t=tab)"
                 }),
             },
             "optional": {},

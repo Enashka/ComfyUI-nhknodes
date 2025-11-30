@@ -31,34 +31,42 @@ class OllamaChat:
                     "qwen3-vl:8b",
                     "llama3.2-vision:11b",
                     "gemma3-27b-it-q8"
-                ], {"default": "qwen3:8b"}),
+                ], {
+                    "default": "qwen3:8b",
+                    "tooltip": "Local Ollama model to use (models with 'vl' or 'vision' support images)"
+                }),
                 "system_message": ("STRING", {
                     "multiline": True,
                     "default": "",
-                    "placeholder": "System prompt"
+                    "placeholder": "System prompt",
+                    "tooltip": "System message to set assistant behavior and context"
                 }),
                 "user_message": ("STRING", {
                     "multiline": True,
                     "default": "",
-                    "placeholder": "User message"
+                    "placeholder": "User message",
+                    "tooltip": "User message/prompt to send to the model"
                 }),
                 "temperature": ("FLOAT", {
                     "default": 0.7,
                     "min": 0.0,
                     "max": 2.0,
                     "step": 0.1,
-                    "display": "slider"
+                    "display": "slider",
+                    "tooltip": "Randomness in responses (0=deterministic, 2=very random)"
                 }),
                 "max_tokens": ("INT", {
                     "default": 512,
                     "min": 50,
                     "max": 4096,
                     "step": 50,
-                    "tooltip": "Maximum response length"
+                    "tooltip": "Maximum response length in tokens"
                 }),
             },
             "optional": {
-                "image": ("IMAGE",),
+                "image": ("IMAGE", {
+                    "tooltip": "Optional image for vision-enabled models (qwen3-vl, llama3.2-vision)"
+                }),
             }
         }
 

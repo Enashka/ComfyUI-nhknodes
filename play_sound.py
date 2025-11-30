@@ -12,10 +12,21 @@ class PlaySound:
     @classmethod
     def INPUT_TYPES(s):
         return {"required": {
-            "any": (any, {}),
-            "mode": (["always", "on empty queue"], {}),
-            "volume": ("FLOAT", {"min": 0, "max": 1, "step": 0.1, "default": 0.5}),
-            "file": ("STRING", { "default": "notify.mp3" })
+            "any": (any, {"tooltip": "Pass-through input (any type)"}),
+            "mode": (["always", "on empty queue"], {
+                "tooltip": "When to play sound: always or only when queue is empty"
+            }),
+            "volume": ("FLOAT", {
+                "min": 0,
+                "max": 1,
+                "step": 0.1,
+                "default": 0.5,
+                "tooltip": "Sound volume (0.0 to 1.0)"
+            }),
+            "file": ("STRING", {
+                "default": "notify.mp3",
+                "tooltip": "Path to sound file to play"
+            })
         }}
 
     FUNCTION = "nop"

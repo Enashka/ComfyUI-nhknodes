@@ -27,7 +27,7 @@ class EditWithKrita:
     def INPUT_TYPES(cls):
         return {
             "required": {
-                "image": ("IMAGE",),
+                "image": ("IMAGE", {"tooltip": "Input image or batch to edit"}),
                 "timeout": ("INT", {
                     "default": 300,
                     "min": 10,

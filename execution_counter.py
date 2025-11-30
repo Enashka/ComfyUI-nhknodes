@@ -31,7 +31,7 @@ class ExecutionCounter:
     def INPUT_TYPES(cls):
         return {
             "required": {
-                "input": (anyType, {}),
+                "input": (anyType, {"tooltip": "Pass-through input (any type)"}),
                 "target_count": ("INT", {
                     "default": 100,
                     "min": 1,

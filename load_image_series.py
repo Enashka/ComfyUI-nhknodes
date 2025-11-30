@@ -40,17 +40,36 @@ class LoadImageSeries:
     def INPUT_TYPES(cls):
         return {
             "required": {
-                "mode": (["single_image", "random"],),
-                "path": ("STRING", {"default": '', "multiline": False}),
+                "mode": (["single_image", "random"], {
+                    "tooltip": "single_image: load by index (use with control_after_generate=increment for sequences), random: load random image by seed"
+                }),
+                "path": ("STRING", {
+                    "default": '',
+                    "multiline": False,
+                    "tooltip": "Directory path containing images to load"
+                }),
                 "pattern": ("STRING", {
                     "default": '*',
                     "multiline": False,
                     "tooltip": "Glob pattern to filter files (e.g., '*.png', 'img_*.jpg', '**/*.png' for recursive)"
                 }),
-                "index": ("INT", {"default": 0}),
-                "seed": ("INT", {"default": 0}),
-                "label": ("STRING", {"default": 'Series001', "multiline": False}),
-                "reset": ("BOOLEAN", {"default": False}),
+                "index": ("INT", {
+                    "default": 0,
+                    "tooltip": "Starting index for single_image mode (auto-increments with control_after_generate)"
+                }),
+                "seed": ("INT", {
+                    "default": 0,
+                    "tooltip": "Seed for random mode (same seed = same random image)"
+                }),
+                "label": ("STRING", {
+                    "default": 'Series001',
+                    "multiline": False,
+                    "tooltip": "Unique identifier for tracking this sequence independently from others"
+                }),
+                "reset": ("BOOLEAN", {
+                    "default": False,
+                    "tooltip": "Reset counter back to index 0"
+                }),
             }
         }
 

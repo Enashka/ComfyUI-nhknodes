@@ -19,15 +19,18 @@ class AddHeadroom:
     def INPUT_TYPES(cls):
         return {
             "required": {
-                "image": ("IMAGE",),
+                "image": ("IMAGE", {"tooltip": "Input image or batch to add headroom"}),
                 "reduction_percent": ("FLOAT", {
                     "default": 10.0,
                     "min": 0.0,
                     "max": 50.0,
                     "step": 0.5,
-                    "display": "number"
+                    "display": "number",
+                    "tooltip": "Percentage to reduce image size (creates headroom)"
                 }),
-                "background": (["black", "white", "transparent"],),
+                "background": (["black", "white", "transparent"], {
+                    "tooltip": "Background fill color for headroom area"
+                }),
             },
         }
 

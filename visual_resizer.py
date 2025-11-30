@@ -20,13 +20,31 @@ class VisualResizer:
     def INPUT_TYPES(cls):
         return {
             "required": {
-                "image": ("IMAGE",),
-                "canvas_width": ("INT", {"default": 1024}),
-                "canvas_height": ("INT", {"default": 1024}),
-                "image_width": ("INT", {"default": 512}),
-                "image_height": ("INT", {"default": 512}),
-                "offset_x": ("INT", {"default": 0}),
-                "offset_y": ("INT", {"default": 0}),
+                "image": ("IMAGE", {"tooltip": "Input image or batch to resize and position"}),
+                "canvas_width": ("INT", {
+                    "default": 1024,
+                    "tooltip": "Width of output canvas"
+                }),
+                "canvas_height": ("INT", {
+                    "default": 1024,
+                    "tooltip": "Height of output canvas"
+                }),
+                "image_width": ("INT", {
+                    "default": 512,
+                    "tooltip": "Width to resize image to"
+                }),
+                "image_height": ("INT", {
+                    "default": 512,
+                    "tooltip": "Height to resize image to"
+                }),
+                "offset_x": ("INT", {
+                    "default": 0,
+                    "tooltip": "Horizontal offset from center (pixels)"
+                }),
+                "offset_y": ("INT", {
+                    "default": 0,
+                    "tooltip": "Vertical offset from center (pixels)"
+                }),
             },
         }
 

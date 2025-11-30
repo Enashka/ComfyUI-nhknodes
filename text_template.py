@@ -15,7 +15,8 @@ class TextTemplate:
                 "template": ("STRING", {
                     "default": "The [text_1] walks in the [text_2]",
                     "multiline": True,
-                    "placeholder": "Enter template with placeholders like [text_1], [text_2], etc."
+                    "placeholder": "Enter template with placeholders like [text_1], [text_2], etc.",
+                    "tooltip": "Template text with [placeholder] syntax - connect inputs to replace placeholders"
                 }),
             },
             "optional": {},

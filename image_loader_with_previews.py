@@ -89,9 +89,19 @@ class ImageLoaderWithPreviews:
         output_dir = folder_paths.get_output_directory()
         return {
             "required": {
-                "folder_path": ("STRING", {"default": output_dir, "multiline": False}),
-                "image": ("STRING", {"default": ""}),
-                "sort_method": (["name_asc", "name_desc", "newest_first", "oldest_first", "recently_modified", "oldest_modified"], {"default": "newest_first"}),
+                "folder_path": ("STRING", {
+                    "default": output_dir,
+                    "multiline": False,
+                    "tooltip": "Directory path containing images to load"
+                }),
+                "image": ("STRING", {
+                    "default": "",
+                    "tooltip": "Image filename (select from dropdown with preview on hover)"
+                }),
+                "sort_method": (["name_asc", "name_desc", "newest_first", "oldest_first", "recently_modified", "oldest_modified"], {
+                    "default": "newest_first",
+                    "tooltip": "Sorting method for image list"
+                }),
             }
         }
 

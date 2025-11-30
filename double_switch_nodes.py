@@ -30,10 +30,10 @@ class DoubleSwitch:
                     "default": True,
                     "tooltip": "True = output A inputs, False = output B inputs"
                 }),
-                "A1": (anyType, {"lazy": True}),
-                "A2": (anyType, {"lazy": True}),
-                "B1": (anyType, {"lazy": True}),
-                "B2": (anyType, {"lazy": True}),
+                "A1": (anyType, {"lazy": True, "tooltip": "First input of A pair"}),
+                "A2": (anyType, {"lazy": True, "tooltip": "Second input of A pair"}),
+                "B1": (anyType, {"lazy": True, "tooltip": "First input of B pair"}),
+                "B2": (anyType, {"lazy": True, "tooltip": "Second input of B pair"}),
             }
         }
     
@@ -75,8 +75,8 @@ class DoubleSwitchOut:
                     "default": True,
                     "tooltip": "True = output to A outputs, False = output to B outputs"
                 }),
-                "input1": (anyType, {}),
-                "input2": (anyType, {}),
+                "input1": (anyType, {"tooltip": "First input to route"}),
+                "input2": (anyType, {"tooltip": "Second input to route"}),
             }
         }
     

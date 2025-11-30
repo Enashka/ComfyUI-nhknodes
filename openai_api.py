@@ -28,20 +28,27 @@ class LLMChat:
                     "gpt-5",
                     "gpt-5-mini",
                     "gpt-5-nano"
-                ], {"default": "gpt-4o"}),
+                ], {
+                    "default": "gpt-4o",
+                    "tooltip": "OpenAI model to use (GPT-4o supports vision)"
+                }),
                 "system_message": ("STRING", {
                     "multiline": True,
                     "default": "",
-                    "placeholder": "System prompt"
+                    "placeholder": "System prompt",
+                    "tooltip": "System message to set assistant behavior and context"
                 }),
                 "user_message": ("STRING", {
                     "multiline": True,
                     "default": "",
-                    "placeholder": "User message"
+                    "placeholder": "User message",
+                    "tooltip": "User message/prompt to send to the model"
                 }),
             },
             "optional": {
-                "image": ("IMAGE",),
+                "image": ("IMAGE", {
+                    "tooltip": "Optional image for vision-enabled models (GPT-4o, GPT-5)"
+                }),
             }
         }
 
