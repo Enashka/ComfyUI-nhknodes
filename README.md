@@ -55,6 +55,9 @@ The standout feature of this collection - an advanced image loader that hopefull
 - **📐 Size Picker** (nhk) – Flux/SDXL/Qwen-optimized resolution presets with handy metadata.
 - **🔊 Play Sound** (nhk) – Small notification node that plays an audio file when a queue finishes.
 
+### 🎛️ Conditioning (`nhk/conditioning`)
+- **⚡ Text Encode Flux2 Image Edit** (nhk) – Simplified encoding for Flux2 Klein image editing. Combines prompt + up to 3 reference images into positive/negative conditioning with reference latents attached.
+
 ### 🤖 AI & Media (`nhk/ai`)
 - **🦙 Ollama API** (nhk) – Local chat/vision models with hidden thinking output and optional image prompts.
 - **🤖 OpenAI API** (nhk) – GPT‑4/GPT‑5 chat with optional vision input (requires `OPENAI_API_KEY`).
