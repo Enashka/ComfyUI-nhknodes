@@ -30,7 +30,10 @@ class OllamaChat:
                     "qwen3:30b-a3b-instruct-2507-q4_K_M",
                     "qwen3-vl:8b",
                     "llama3.2-vision:11b",
-                    "gemma3-27b-it-q8"
+                    "gemma3-27b-it-q8",
+                    "devstral:24b-small-2505-q8_0",
+                    "moondream:latest",
+                    "minicpm-v:latest"
                 ], {
                     "default": "qwen3:8b",
                     "tooltip": "Local Ollama model to use (models with 'vl' or 'vision' support images)"
@@ -58,7 +61,7 @@ class OllamaChat:
                 "max_tokens": ("INT", {
                     "default": 512,
                     "min": 50,
-                    "max": 4096,
+                    "max": 131072,
                     "step": 50,
                     "tooltip": "Maximum response length in tokens"
                 }),

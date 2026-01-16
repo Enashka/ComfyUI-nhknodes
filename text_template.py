@@ -1,54 +1,58 @@
 """
-Text template engine with dynamic placeholder replacement.
-Write templates like "The [text_1] walks in the [text_2]" and connect inputs to replace placeholders.
+Text template engine with placeholder replacement using Python format strings.
+Write templates like "The {a} walks in the {b}" and connect inputs to replace placeholders.
+Uses Python str.format() syntax - see https://docs.python.org/3/library/string.html#format-string-syntax
 Category: nhk/text
 """
 
-import re
-
 class TextTemplate:
-    
+
     @classmethod
     def INPUT_TYPES(cls):
         return {
             "required": {
                 "template": ("STRING", {
-                    "default": "The [text_1] walks in the [text_2]",
+                    "default": "The {a} walks in the {b}",
                     "multiline": True,
-                    "placeholder": "Enter template with placeholders like [text_1], [text_2], etc.",
-                    "tooltip": "Template text with [placeholder] syntax - connect inputs to replace placeholders"
+                    "placeholder": "Template with placeholders {a} {b} {c}",
+                    "tooltip": "Template text with {placeholder} syntax. Use {a:.2f} for formatting, {a:05d} for padding. Use {{ }} to write literal braces."
                 }),
             },
-            "optional": {},
+            "optional": {
+                "a": ("STRING", {
+                    "default": "",
+                    "multiline": True,
+                    "forceInput": True,
+                    "tooltip": "(optional) Value for {a} placeholder"
+                }),
+                "b": ("STRING", {
+                    "default": "",
+                    "multiline": True,
+                    "forceInput": True,
+                    "tooltip": "(optional) Value for {b} placeholder"
+                }),
+                "c": ("STRING", {
+                    "default": "",
+                    "multiline": True,
+                    "forceInput": True,
+                    "tooltip": "(optional) Value for {c} placeholder"
+                }),
+            },
         }
 
     RETURN_TYPES = ("STRING",)
     RETURN_NAMES = ("output",)
     FUNCTION = "process_template"
     CATEGORY = "nhk/text"
-    DESCRIPTION = "Text template engine with dynamic placeholder replacement"
-    
-    @classmethod
-    def VALIDATE_INPUTS(cls, **kwargs):
-        return True
-    
-    def process_template(self, template="", **kwargs):
+    DESCRIPTION = "Text template engine with placeholder replacement using Python format strings"
+
+    def process_template(self, template="", a="", b="", c=""):
         if not template:
             return ("",)
-        
-        # Find all placeholders in the template like [text_1], [text_2], etc.
-        placeholders = re.findall(r'\[([^]]+)\]', template)
-        
-        # Replace each placeholder with its corresponding input value
-        result = template
-        for placeholder in placeholders:
-            if placeholder in kwargs and kwargs[placeholder]:
-                # Replace all instances of [placeholder] with the input value
-                result = result.replace(f'[{placeholder}]', str(kwargs[placeholder]))
-            else:
-                # If no input connected, leave placeholder as is or replace with empty
-                result = result.replace(f'[{placeholder}]', f'[{placeholder}]')
-        
+
+        # Use Python's str.format() to replace placeholders
+        result = template.format(a=a, b=b, c=c)
+
         return (result,)
 
 NODE_CLASS_MAPPINGS = {
