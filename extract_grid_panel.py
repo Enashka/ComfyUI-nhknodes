@@ -1,7 +1,7 @@
 """
 Extract Grid Panel
 Extracts a single panel from a grid image using spreadsheet-style notation (a1, b3, etc.).
-Row = letter (a=0, b=1...), Column = number (1=0, 2=1...).
+Column = letter (a=0, b=1...), Row = number (1=0, 2=1...).
 Supports variable grid sizes and separator widths.
 Category: nhk/image
 """
@@ -20,8 +20,8 @@ class ExtractGridPanel:
     """
     Extracts a single panel from a grid image.
     Panel notation: letter + number (e.g., a1, b2, c3)
-    - Letter = row (a=first row, b=second row, etc.)
-    - Number = column (1=first column, 2=second column, etc.)
+    - Letter = column (a=first column, b=second column, etc.)
+    - Number = row (1=first row, 2=second row, etc.)
     """
 
     @classmethod
@@ -45,7 +45,7 @@ class ExtractGridPanel:
                 }),
                 "panel": ("STRING", {
                     "default": "a1",
-                    "tooltip": "Panel to extract (e.g., a1, b2, c3). Letter=row, number=column."
+                    "tooltip": "Panel to extract (e.g., a1, b2, c3). Letter=column, number=row."
                 }),
                 "separator_width": ("INT", {
                     "default": 0,
@@ -69,55 +69,55 @@ class ExtractGridPanel:
             print(f"Invalid panel notation: {panel}")
             return (image, panel, 0, 0)
 
-        # Extract row letter and column number
-        row_letter = ""
-        col_str = ""
+        # Extract column letter(s) and row number
+        col_letter = ""
+        row_str = ""
 
         for i, char in enumerate(panel):
             if char.isalpha():
-                row_letter += char
+                col_letter += char
             else:
-                col_str = panel[i:]
+                row_str = panel[i:]
                 break
 
-        if not row_letter or not col_str:
+        if not col_letter or not row_str:
             print(f"Invalid panel notation: {panel}")
             return (image, panel, 0, 0)
 
         try:
-            # Convert letter to row index (a=0, b=1, etc.)
-            row_idx = ord(row_letter[-1]) - ord('a')
-            # Convert number to column index (1=0, 2=1, etc.)
-            col_idx = int(col_str) - 1
+            # Column letter(s) -> column index (a=0, b=1, ...)
+            col_idx = ord(col_letter[-1]) - ord('a')
+            # Row number -> row index (1=0, 2=1, ...)
+            row_idx = int(row_str) - 1
         except ValueError:
             print(f"Invalid panel notation: {panel}")
             return (image, panel, 0, 0)
 
         # Validate indices
         if row_idx < 0 or row_idx >= rows:
-            print(f"Row '{row_letter}' out of range (max: {chr(ord('a') + rows - 1)})")
+            print(f"Row '{row_str}' out of range (max: {rows})")
             return (image, panel, 0, 0)
 
         if col_idx < 0 or col_idx >= columns:
-            print(f"Column '{col_str}' out of range (max: {columns})")
+            print(f"Column '{col_letter}' out of range (max: {chr(ord('a') + columns - 1)})")
             return (image, panel, 0, 0)
 
         # Convert tensor to PIL
         pil_image = tensor2pil(image)
         img_width, img_height = pil_image.size
 
-        # Calculate cell dimensions (accounting for separators)
+        # Calculate cell dimensions (accounting for separators) using floats to reduce rounding drift
         total_sep_width = separator_width * (columns - 1)
         total_sep_height = separator_width * (rows - 1)
 
-        cell_width = (img_width - total_sep_width) // columns
-        cell_height = (img_height - total_sep_height) // rows
+        cell_width = (img_width - total_sep_width) / columns
+        cell_height = (img_height - total_sep_height) / rows
 
-        # Calculate crop coordinates
-        left = col_idx * (cell_width + separator_width)
-        top = row_idx * (cell_height + separator_width)
-        right = left + cell_width
-        bottom = top + cell_height
+        # Calculate crop coordinates with rounding to nearest pixel
+        left = int(round(col_idx * cell_width + col_idx * separator_width))
+        top = int(round(row_idx * cell_height + row_idx * separator_width))
+        right = int(round(left + cell_width))
+        bottom = int(round(top + cell_height))
 
         # Ensure we don't exceed image bounds
         right = min(right, img_width)
