@@ -154,7 +154,7 @@ app.registerExtension({
                 .nhk-selected-image {
                     display: flex;
                     justify-content: center;
-                    align-items: center;
+                    align-items: flex-start;
                     margin: 0;
                     padding: 0;
                     background: #333;
@@ -162,7 +162,7 @@ app.registerExtension({
                     width: 100%;
                     flex: 1;
                     box-sizing: border-box;
-                    overflow: hidden;
+                    overflow: auto;
                 }
                 
                 .nhk-selected-image img {
@@ -381,7 +381,7 @@ app.registerExtension({
 
         // Create selected image display
         const selectedImageDisplay = $el("div.nhk-selected-image", {
-            style: { display: "none", minHeight: "0", maxHeight: "100%" }
+            style: { display: "none", minHeight: "0", maxHeight: "100%", overflow: "auto" }
         });
 
         // Function to show selected image on node
