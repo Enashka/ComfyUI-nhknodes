@@ -3,7 +3,6 @@
 # Consolidates CLIPTextEncode + VAEEncode + ReferenceLatent chain into one node.
 
 import math
-import torch
 import comfy.utils
 import node_helpers
 
@@ -34,17 +33,16 @@ class TextEncodeFlux2ImageEdit:
     FUNCTION = "encode"
     CATEGORY = "nhk/conditioning"
 
-    DESCRIPTION = "Encodes prompt and reference images for Flux2 Klein image editing. Returns both positive (with prompt) and negative (zeroed) conditioning with reference latents attached."
+    DESCRIPTION = "Encodes prompt and reference images for Flux2 Klein image editing. Returns both positive (with prompt) and negative (empty) conditioning with reference latents attached."
 
     def encode(self, clip, prompt, vae=None, image1=None, image2=None, image3=None):
-        # Encode the prompt
+        # Encode the prompt for positive conditioning
         tokens = clip.tokenize(prompt)
         positive_cond = clip.encode_from_tokens_scheduled(tokens)
 
-        # Create zeroed conditioning for negative
-        negative_cond = clip.encode_from_tokens_scheduled(tokens)
-        # Zero out the conditioning
-        negative_cond = self._zero_out_conditioning(negative_cond)
+        # Encode empty string for negative conditioning (matches original workflow)
+        empty_tokens = clip.tokenize("")
+        negative_cond = clip.encode_from_tokens_scheduled(empty_tokens)
 
         # Process reference images if VAE provided
         if vae is not None:
@@ -78,19 +76,6 @@ class TextEncodeFlux2ImageEdit:
 
         s = comfy.utils.common_upscale(samples, width, height, "area", "disabled")
         return vae.encode(s.movedim(1, -1)[:, :, :, :3])
-
-    def _zero_out_conditioning(self, conditioning):
-        """Zero out the conditioning tensors."""
-        out = []
-        for c in conditioning:
-            # c is a tuple of (tensor, dict)
-            pooled_output = c[1].get("pooled_output", None)
-            cond_dict = c[1].copy()
-            if pooled_output is not None:
-                cond_dict["pooled_output"] = torch.zeros_like(pooled_output)
-            out.append((torch.zeros_like(c[0]), cond_dict))
-        return out
-
 
 NODE_CLASS_MAPPINGS = {
     "TextEncodeFlux2ImageEdit": TextEncodeFlux2ImageEdit,

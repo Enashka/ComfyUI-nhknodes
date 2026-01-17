@@ -19,8 +19,26 @@
  */
 
 import { app } from "../../../scripts/app.js";
-import { $el } from "../../../scripts/ui.js";
 import { api } from "../../../scripts/api.js";
+
+// Local $el helper - avoids deprecated /scripts/ui.js import
+function $el(tag, propsOrChildren, children) {
+    const split = tag.split(".");
+    const element = document.createElement(split.shift());
+    if (split.length > 0) element.classList.add(...split);
+
+    if (propsOrChildren) {
+        if (Array.isArray(propsOrChildren)) {
+            element.append(...propsOrChildren);
+        } else {
+            const { parent, ...props } = propsOrChildren;
+            Object.assign(element, props);
+            if (parent) parent.append(element);
+        }
+    }
+    if (children) element.append(...children);
+    return element;
+}
 
 const IMAGE_LOADER_NODE = "ImageLoaderWithPreviews";
 

@@ -46,6 +46,9 @@ The standout feature of this collection - an advanced image loader that hopefull
 - **📏 Visual Resizer** (nhk) – Drops any image onto a custom canvas size with precise offsets.
 - **🧑 Add Headroom** (nhk) – Shrinks the subject within the original canvas to create breathing room up top.
 - **🎨 Edit with Krita** (nhk) – Sends a frame to Krita, waits for edits, and re-imports it into the workflow.
+- **⏹️ Extract Grid Panel** (nhk) – Extracts a single panel from a grid image using spreadsheet notation (a1, b2, c3). Supports variable grid sizes and separator widths.
+- **⏹️ Load 2x2 Grid Series** (nhk) – Loads images from a directory, treating each as a 2x2 grid. Extracts cells in reading order.
+- **⏹️ Load 3x3 Grid Series** (nhk) – Loads images from a directory, treating each as a 3x3 grid. Extracts cells in reading order.
 
 ### ⚙️ Workflow Utilities (`nhk/utility`)
 - **🔄 Cycling Switch** (nhk) – Rotates through unlimited inputs, staying on each for a configurable number of runs.

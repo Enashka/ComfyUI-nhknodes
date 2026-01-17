@@ -54,6 +54,7 @@ load_node_file("play_sound.py")
 load_node_file("add_headroom.py")
 load_node_file("edit_with_krita.py")
 load_node_file("flux2_image_edit_encode.py")
+load_node_file("extract_grid_panel.py")
 
 print(f"NHK Nodes: Loaded {len(NODE_CLASS_MAPPINGS)} nodes: {list(NODE_CLASS_MAPPINGS.keys())}")
 
