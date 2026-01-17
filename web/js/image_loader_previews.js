@@ -95,6 +95,7 @@ app.registerExtension({
                     margin: 0;
                     width: 100%;
                     flex: 1;
+                    min-height: 0;
                     box-sizing: border-box;
                 }
                 
@@ -380,7 +381,7 @@ app.registerExtension({
 
         // Create selected image display
         const selectedImageDisplay = $el("div.nhk-selected-image", {
-            style: { display: "none" }
+            style: { display: "none", minHeight: "0", maxHeight: "100%" }
         });
 
         // Function to show selected image on node
@@ -477,6 +478,15 @@ app.registerExtension({
             if (node.size && node.size[1] > 120) {
                 const availableHeight = node.size[1] - 160;
                 container.style.height = availableHeight + "px";
+
+                const navHeight = navBar.offsetHeight || 0;
+                const innerHeight = Math.max(availableHeight - navHeight, 50);
+
+                imageGrid.style.height = innerHeight + "px";
+                imageGrid.style.maxHeight = innerHeight + "px";
+                selectedImageDisplay.style.height = innerHeight + "px";
+                selectedImageDisplay.style.maxHeight = innerHeight + "px";
+
                 // Show grid when node is scaled tall enough AND user wants grid visible
                 if (availableHeight > 100 && isGridExpanded) {
                     imageGrid.style.display = "grid";
