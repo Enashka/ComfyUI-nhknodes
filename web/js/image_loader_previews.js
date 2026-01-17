@@ -89,15 +89,12 @@ app.registerExtension({
                     grid-template-columns: repeat(4, 1fr);
                     gap: 0;
                     overflow: auto;
-                    height: 100%;
-                    max-height: 100%;
                     padding: 0;
                     background: #2a2a2a;
                     border: none;
                     margin: 0;
                     width: 100%;
                     flex: 1;
-                    min-height: 0;
                     box-sizing: border-box;
                 }
                 
@@ -250,7 +247,6 @@ app.registerExtension({
                 selectedImageName = "";
                 state.selectedImageName = "";
                 selectedImageDisplay.style.display = "none";
-                navBar.style.display = "none";
                 isGridExpanded = true;
                 state.isGridExpanded = true;
                 if (imageGrid.children.length > 0) {
@@ -263,6 +259,50 @@ app.registerExtension({
 
         // Create image grid container
         const imageGrid = $el("div.nhk-image-grid");
+
+        // Simple navigation bar for prev/next when an image is selected
+        const navBar = $el("div", {
+            style: {
+                display: "none",
+                gap: "6px",
+                alignItems: "center",
+                justifyContent: "center",
+                padding: "4px 0",
+                background: "#262626",
+                borderBottom: "1px solid #333",
+                boxSizing: "border-box"
+            }
+        });
+
+        const createNavButton = (label, onClick) => $el("button", {
+            textContent: label,
+            onclick: onClick,
+            style: {
+                padding: "4px 8px",
+                background: "#3a3a3a",
+                color: "#e5e5e5",
+                border: "1px solid #444",
+                borderRadius: "3px",
+                cursor: "pointer",
+                fontSize: "11px"
+            },
+            onmouseenter: (e) => e.currentTarget.style.background = "#4a4a4a",
+            onmouseleave: (e) => e.currentTarget.style.background = "#3a3a3a",
+        });
+
+        const prevButton = createNavButton("◀ Prev", () => {
+            if (currentImageIndex > 0) {
+                showSelectedImage(currentImageList[currentImageIndex - 1]);
+            }
+        });
+
+        const nextButton = createNavButton("Next ▶", () => {
+            if (currentImageIndex < currentImageList.length - 1) {
+                showSelectedImage(currentImageList[currentImageIndex + 1]);
+            }
+        });
+
+        navBar.append(prevButton, nextButton);
 
         // Function to load and display images
         const loadImages = async () => {
@@ -304,7 +344,6 @@ app.registerExtension({
             
             if (imageNames.length === 0) {
                 imageGrid.innerHTML = "No images found in this folder";
-                navBar.style.display = "none";
                 return;
             }
 
@@ -339,54 +378,9 @@ app.registerExtension({
         };
 
 
-        // Navigation bar that sits above the image display (below widgets)
-        const navBar = $el("div", {
-            style: {
-                display: "none",
-                gap: "6px",
-                alignItems: "center",
-                justifyContent: "center",
-                padding: "4px 2px",
-                background: "#262626",
-                borderBottom: "1px solid #333",
-                borderRadius: "3px",
-                boxSizing: "border-box"
-            }
-        });
-
-        const createNavButton = (label, onClick) => $el("button", {
-            textContent: label,
-            onclick: onClick,
-            style: {
-                padding: "4px 8px",
-                background: "#3a3a3a",
-                color: "#e5e5e5",
-                border: "1px solid #444",
-                borderRadius: "3px",
-                cursor: "pointer",
-                fontSize: "11px"
-            },
-            onmouseenter: (e) => e.currentTarget.style.background = "#4a4a4a",
-            onmouseleave: (e) => e.currentTarget.style.background = "#3a3a3a",
-        });
-
-        const prevButton = createNavButton("◀ Previous", () => {
-            if (currentImageIndex > 0) {
-                showSelectedImage(currentImageList[currentImageIndex - 1]);
-            }
-        });
-
-        const nextButton = createNavButton("Next ▶", () => {
-            if (currentImageIndex < currentImageList.length - 1) {
-                showSelectedImage(currentImageList[currentImageIndex + 1]);
-            }
-        });
-
-        navBar.append(prevButton, nextButton);
-
-        // Create selected image display (below nav bar)
+        // Create selected image display
         const selectedImageDisplay = $el("div.nhk-selected-image", {
-            style: { display: "none", minHeight: "0", flex: "1" }
+            style: { display: "none" }
         });
 
         // Function to show selected image on node
@@ -429,14 +423,14 @@ app.registerExtension({
                         cursor: "pointer"
                     },
                     onclick: () => {
-                // Close selected image and show grid
-                selectedImageDisplay.style.display = "none";
-                navBar.style.display = "none";
-                isGridExpanded = true;
-                state.isGridExpanded = true;
-                if (imageGrid.children.length > 0) {
-                    imageGrid.style.display = "grid";
-                }
+                        // Close selected image and show grid
+                        selectedImageDisplay.style.display = "none";
+                        navBar.style.display = "none";
+                        isGridExpanded = true;
+                        state.isGridExpanded = true;
+                        if (imageGrid.children.length > 0) {
+                            imageGrid.style.display = "grid";
+                        }
                     }
                 });
 
@@ -446,7 +440,7 @@ app.registerExtension({
                 selectedImageDisplay.style.flex = "1";
                 selectedImageDisplay.style.minHeight = "100px";
 
-                // Update top nav bar visibility
+                // Update nav bar
                 prevButton.disabled = currentImageIndex <= 0;
                 nextButton.disabled = currentImageIndex >= currentImageList.length - 1;
                 navBar.style.display = "flex";
@@ -464,9 +458,7 @@ app.registerExtension({
                 borderRadius: "4px",
                 boxSizing: "border-box",
                 display: "flex",
-                flexDirection: "column",
-                overflow: "hidden",
-                minHeight: "0"
+                flexDirection: "column"
             }
         }, [
             navBar,
@@ -476,36 +468,30 @@ app.registerExtension({
 
         // Add container to node
         const widget = node.addDOMWidget("image_selector", "div", container);
-        // Keep the widget at a stable size; internal content manages its own layout
-        widget.computeSize = (w) => {
-            const width = Math.max(w || 400, 320);
-            const height = 250;
-            return [width, height];
+        widget.computeSize = () => {
+            return [400, 250];
         };
 
         // Monitor node size changes and reveal grid when scaled vertically
         const updateContainerHeight = () => {
             if (node.size && node.size[1] > 120) {
-                const availableHeight = node.size[1] - 160; // leave headroom for header/widgets
+                const availableHeight = node.size[1] - 160;
                 container.style.height = availableHeight + "px";
-
+                // Show grid when node is scaled tall enough AND user wants grid visible
                 if (availableHeight > 100 && isGridExpanded) {
                     imageGrid.style.display = "grid";
-                    navBar.style.display = "none";
                 } else if (availableHeight > 100 && !isGridExpanded && selectedImageName) {
+                    // Show selected image if we have one and grid is not expanded
                     selectedImageDisplay.style.display = "flex";
                     imageGrid.style.display = "none";
-                    navBar.style.display = "flex";
                 } else {
                     imageGrid.style.display = "none";
                     selectedImageDisplay.style.display = "none";
-                    navBar.style.display = "none";
                 }
             } else {
                 container.style.height = "50px";
                 imageGrid.style.display = "none";
                 selectedImageDisplay.style.display = "none";
-                navBar.style.display = "none";
             }
         };
 
@@ -523,25 +509,35 @@ app.registerExtension({
         
         // Load images on startup - delay to allow widget values to load from saved workflows
         setTimeout(() => {
+            // loadImages() will automatically get fresh path from getCurrentPath()
             loadImages().then(() => {
+                // Restore selected image state if we have one
+                // Only restore to selected image view if user explicitly selected something
                 const widgetImageValue = imageWidget?.value || "";
                 if (widgetImageValue && widgetImageValue.trim() && currentImageList.includes(widgetImageValue)) {
+                    console.log('✅ User had selected:', widgetImageValue, '- restoring selected image view');
+                    
+                    // Show the selected image immediately
                     showSelectedImage(widgetImageValue);
+                    
+                    // Switch to selected image view after a brief delay
                     setTimeout(() => {
                         isGridExpanded = false;
                         imageGrid.style.display = "none";
                         selectedImageDisplay.style.display = "flex";
+                        console.log('🖼️ Showing selected image view');
                     }, 100);
                 } else {
+                    console.log('📋 No explicit selection found - staying in grid view');
                     isGridExpanded = true;
+                    // Make sure grid is visible
                     imageGrid.style.display = "grid";
                     selectedImageDisplay.style.display = "none";
                 }
             });
         }, 100);
 
-        // Periodically sync height to node size in case ComfyUI doesn't emit resize events
-        setInterval(updateContainerHeight, 250);
-        node.onResize = updateContainerHeight;
+        // Monitor for size changes
+        setInterval(updateContainerHeight, 100);
     }
 });
