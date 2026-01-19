@@ -79,6 +79,11 @@ class LoadImageSeries:
     OUTPUT_NODE = True
     CATEGORY = "nhk/image"
 
+    @classmethod
+    def IS_CHANGED(cls, **kwargs):
+        # Force re-run each execution so the counter can advance even if inputs stay the same
+        return float("nan")
+
     def load_image(self, mode, path, pattern, index, seed, label, reset):
         # Reset counter if requested
         if reset:
