@@ -48,7 +48,7 @@ class ConditionalRouter:
         "Which path was taken"
     )
     FUNCTION = "route"
-    CATEGORY = "nhk/utility"
+    CATEGORY = "nhk/wip"
     DESCRIPTION = "Selects between two inputs based on boolean condition with lazy evaluation"
 
     def check_lazy_status(self, condition=True, pass_input=None, fail_input=None):
@@ -115,7 +115,7 @@ class ConditionalRouterDual:
         "Which path was taken"
     )
     FUNCTION = "route"
-    CATEGORY = "nhk/utility"
+    CATEGORY = "nhk/wip"
     DESCRIPTION = "Selects between two input pairs based on boolean condition with lazy evaluation"
 
     def check_lazy_status(self, condition=True, pass_input1=None, pass_input2=None,
@@ -174,7 +174,7 @@ class ConditionalStop:
         "Execution status message"
     )
     FUNCTION = "execute"
-    CATEGORY = "nhk/utility"
+    CATEGORY = "nhk/wip"
     DESCRIPTION = "Stops workflow execution based on condition"
 
     def execute(self, input, condition, stop_message):
@@ -221,7 +221,7 @@ class ConditionalSplitter:
         "Which output is active"
     )
     FUNCTION = "split"
-    CATEGORY = "nhk/utility"
+    CATEGORY = "nhk/wip"
     DESCRIPTION = "Splits input to two outputs based on condition with lazy evaluation"
 
     def check_lazy_status(self, input=None, condition=True):

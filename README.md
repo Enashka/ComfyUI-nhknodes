@@ -41,6 +41,7 @@ The standout feature of this collection - an advanced image loader that hopefull
 ### 🖼️ Image Processing (`nhk/image`)
 - **🖼️ Image Loader With Previews** (nhk) – The featured browser with searchable folders, previews, and sorting.
 - **📸 Load Image Series** (nhk) – Sequence loader with two modes (single_image/random). Use control_after_generate=increment for auto-advancing.
+- **📁 Image Series With Prompts** (nhk) – Loads a folder sequence and attaches per-file prompts from a markdown lookup, with optional default fallback.
 - **📦 Image Grid Batch** (nhk) – Stacks arbitrary images into a batch tensor for downstream samplers.
 - **🎯 Image Grid Composite** (nhk) – Creates presentation grids with gutters, padding, and background control.
 - **📏 Visual Resizer** (nhk) – Drops any image onto a custom canvas size with precise offsets.
@@ -57,6 +58,7 @@ The standout feature of this collection - an advanced image loader that hopefull
 - **⏱️ Execution Counter** (nhk) – Counts queue runs, stops when a limit is reached, and shows progress.
 - **📐 Size Picker** (nhk) – Flux/SDXL/Qwen-optimized resolution presets with handy metadata.
 - **🔊 Play Sound** (nhk) – Small notification node that plays an audio file when a queue finishes.
+- **🔖 Bookmark** (nhk) – Frontend-only canvas bookmark with keyboard shortcut and zoom positioning.
 
 ### 🎛️ Conditioning (`nhk/conditioning`)
 - **⚡ Text Encode Flux2 Image Edit** (nhk) – Simplified encoding for Flux2 Klein image editing. Combines prompt + up to 3 reference images into positive/negative conditioning with reference latents attached.
@@ -103,3 +105,6 @@ Contributions welcome! Please follow the existing code style and add appropriate
 ---
 
 **Created by NHK** | [GitHub](https://github.com/Enashka/ComfyUI-nhknodes) | [ComfyUI Registry](https://registry.comfy.org/)
+
+## 🧪 Experimental (WIP)
+- **Image Evaluator**, **Conditional Router/Dual/Splitter/Stop**, **Save Image +**, **Preview Image +** — part of the in-progress Image Evaluation workflow (see `IMAGE_EVALUATION.md`). They load under `nhk/wip`; behavior may change while we resolve reverse-dependency (pull-based) execution quirks in ComfyUI.

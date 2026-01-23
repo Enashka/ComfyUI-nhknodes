@@ -1,5 +1,10 @@
 # Image Evaluation & Conditional Routing
 
+> ComfyUI executes **backward** from terminals (`OUTPUT_NODE=True`). Only chains that lead into a terminal are pulled into the graph. The WIP nodes here rely on that lazy, pull-based planning, so:
+> - Always end your evaluation branches in a real terminal (e.g., standard Save/Preview or any node with `OUTPUT_NODE=True`). The passthrough Save/Preview here are not terminals by themselves.
+> - Conditional Router/Splitter/Stop use `check_lazy_status` to keep only the active branch; inactive branches won’t execute.
+> - If nothing seems to run, you likely don’t have a terminal reachable from the evaluator branch.
+
 AI-powered image quality control using Qwen3VL for workflow automation.
 
 ---

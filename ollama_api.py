@@ -14,6 +14,7 @@ import base64
 import tempfile
 import os
 import re
+import subprocess
 from PIL import Image
 import torch
 import numpy as np
@@ -64,6 +65,10 @@ class OllamaChat:
                     "max": 131072,
                     "step": 50,
                     "tooltip": "Maximum response length in tokens"
+                }),
+                "purge_after_use": ("BOOLEAN", {
+                    "default": False,
+                    "tooltip": "Stop Ollama service after API call to free VRAM (~12GB)"
                 }),
             },
             "optional": {
@@ -209,8 +214,44 @@ class OllamaChat:
         joined = "\n\n".join(part for part in thinking_parts if part)
         return joined.strip()
 
-    def chat_completion(self, model, system_message="", user_message="", temperature=0.7, max_tokens=512, image=None):
+    def _ensure_ollama_running(self):
+        """Start Ollama if not running"""
+        try:
+            # Check if Ollama is running
+            result = subprocess.run(
+                ["systemctl", "is-active", "ollama"],
+                capture_output=True,
+                text=True
+            )
+            if result.returncode != 0:
+                # Ollama not running, start it
+                subprocess.run(
+                    ["sudo", "/bin/systemctl", "start", "ollama"],
+                    check=True,
+                    capture_output=True
+                )
+                # Give it a moment to start
+                time.sleep(2)
+        except Exception as e:
+            print(f"Warning: Could not start Ollama: {e}")
+
+    def _stop_ollama(self):
+        """Stop Ollama service to free VRAM"""
+        try:
+            subprocess.run(
+                ["sudo", "/bin/systemctl", "stop", "ollama"],
+                check=True,
+                capture_output=True
+            )
+            print("✓ Ollama stopped (VRAM freed)")
+        except Exception as e:
+            print(f"Warning: Could not stop Ollama: {e}")
+
+    def chat_completion(self, model, system_message="", user_message="", temperature=0.7, max_tokens=512, purge_after_use=False, image=None):
         """Ollama API call via HTTP with optional image support"""
+
+        # Ensure Ollama is running
+        self._ensure_ollama_running()
 
         # Validate inputs
         if not user_message or not user_message.strip():
@@ -277,6 +318,12 @@ class OllamaChat:
             info = f"Model: {model}, Temp: {temperature}, Max tokens: {max_tokens}, Hide thinking: True"
             if image is not None:
                 info += " [with image]"
+            if purge_after_use:
+                info += " [purge enabled]"
+
+            # Stop Ollama if requested
+            if purge_after_use:
+                self._stop_ollama()
 
             return (info, thinking_text or "", response_text)
 

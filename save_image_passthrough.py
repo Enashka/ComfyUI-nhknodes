@@ -51,7 +51,7 @@ class SaveImagePassthrough:
         "Path where image was saved"
     )
     FUNCTION = "save_images"
-    CATEGORY = "nhk/image"
+    CATEGORY = "nhk/wip"
     DESCRIPTION = "Save images and pass them through for conditional routing"
 
     def save_images(self, images, filename_prefix="ComfyUI", prompt=None, extra_pnginfo=None):
@@ -131,7 +131,7 @@ class PreviewImagePassthrough:
     RETURN_NAMES = ("image",)
     OUTPUT_TOOLTIPS = ("Image passthrough for further processing",)
     FUNCTION = "preview_images"
-    CATEGORY = "nhk/image"
+    CATEGORY = "nhk/wip"
     DESCRIPTION = "Preview images and pass them through for conditional routing"
 
     def preview_images(self, images, prompt=None, extra_pnginfo=None):

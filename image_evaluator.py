@@ -73,7 +73,7 @@ class ImageEvaluator:
         "Summary: model, threshold, result"
     )
     FUNCTION = "evaluate"
-    CATEGORY = "nhk/ai"
+    CATEGORY = "nhk/wip"
     DESCRIPTION = "AI-powered image evaluation with confidence scoring for workflow control"
 
     @classmethod
