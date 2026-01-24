@@ -56,7 +56,7 @@ The standout feature of this collection - an advanced image loader that hopefull
 - **🚪 Interval Gate** (nhk) – Turns a branch on/off every N executions (perfect for “every 5th image” flows).
 - **🔀 Double Switch (In/Out)** (nhk) – Paired A/B switches that route image/text tuples together.
 - **⏱️ Execution Counter** (nhk) – Counts queue runs, stops when a limit is reached, and shows progress.
-- **📐 Size Picker** (nhk) – Flux/SDXL/Qwen-optimized resolution presets with handy metadata.
+- **📐 Size Picker** (nhk) – Flux/SDXL/Qwen/ZIT-optimized resolution presets with handy metadata.
 - **🔊 Play Sound** (nhk) – Small notification node that plays an audio file when a queue finishes.
 - **🔖 Bookmark** (nhk) – Frontend-only canvas bookmark with keyboard shortcut and zoom positioning.
 
