@@ -1,7 +1,7 @@
 """
-Text template engine with placeholder replacement using Python format strings.
-Write templates like "The {a} walks in the {b}" and connect inputs to replace placeholders.
-Uses Python str.format() syntax - see https://docs.python.org/3/library/string.html#format-string-syntax
+Text template engine with placeholder replacement using bracket syntax.
+Write templates like "The [a] walks in the [b]" and connect inputs to replace placeholders.
+Uses [a] [b] [c] [d] syntax - works seamlessly with JSON templates.
 Category: nhk/text
 """
 
@@ -12,10 +12,10 @@ class TextTemplate:
         return {
             "required": {
                 "template": ("STRING", {
-                    "default": "The {a} walks in the {b}",
+                    "default": "The [a] walks in the [b]",
                     "multiline": True,
-                    "placeholder": "Template with placeholders {a} {b} {c}",
-                    "tooltip": "Template text with {placeholder} syntax. Use {a:.2f} for formatting, {a:05d} for padding. Use {{ }} to write literal braces."
+                    "placeholder": "Template with placeholders [a] [b] [c] [d]",
+                    "tooltip": "Template text with [placeholder] syntax. Placeholders: [a] [b] [c] [d]"
                 }),
             },
             "optional": {
@@ -23,19 +23,25 @@ class TextTemplate:
                     "default": "",
                     "multiline": True,
                     "forceInput": True,
-                    "tooltip": "(optional) Value for {a} placeholder"
+                    "tooltip": "(optional) Value for [a] placeholder"
                 }),
                 "b": ("STRING", {
                     "default": "",
                     "multiline": True,
                     "forceInput": True,
-                    "tooltip": "(optional) Value for {b} placeholder"
+                    "tooltip": "(optional) Value for [b] placeholder"
                 }),
                 "c": ("STRING", {
                     "default": "",
                     "multiline": True,
                     "forceInput": True,
-                    "tooltip": "(optional) Value for {c} placeholder"
+                    "tooltip": "(optional) Value for [c] placeholder"
+                }),
+                "d": ("STRING", {
+                    "default": "",
+                    "multiline": True,
+                    "forceInput": True,
+                    "tooltip": "(optional) Value for [d] placeholder"
                 }),
             },
         }
@@ -44,14 +50,14 @@ class TextTemplate:
     RETURN_NAMES = ("output",)
     FUNCTION = "process_template"
     CATEGORY = "nhk/text"
-    DESCRIPTION = "Text template engine with placeholder replacement using Python format strings"
+    DESCRIPTION = "Text template engine with placeholder replacement using bracket syntax"
 
-    def process_template(self, template="", a="", b="", c=""):
+    def process_template(self, template="", a="", b="", c="", d=""):
         if not template:
             return ("",)
 
-        # Use Python's str.format() to replace placeholders
-        result = template.format(a=a, b=b, c=c)
+        # Simple string replacement for [a], [b], [c], [d]
+        result = template.replace("[a]", a).replace("[b]", b).replace("[c]", c).replace("[d]", d)
 
         return (result,)
 

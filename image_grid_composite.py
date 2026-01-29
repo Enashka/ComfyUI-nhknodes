@@ -22,7 +22,7 @@ class ImageGridComposite:
                     "default": 1024,
                     "min": 64,
                     "max": 8192,
-                    "step": 64,
+                    "step": 1,
                     "tooltip": "Total width of output composite (height calculated automatically)"
                 }),
                 "images_per_row": ("INT", {

@@ -66,6 +66,7 @@ The standout feature of this collection - an advanced image loader that hopefull
 ### 🤖 AI & Media (`nhk/ai`)
 - **🦙 Ollama API** (nhk) – Local chat/vision models with hidden thinking output and optional image prompts.
 - **🤖 OpenAI API** (nhk) – GPT‑4/GPT‑5 chat with optional vision input (requires `OPENAI_API_KEY`).
+- **🍌 Gemini API** (nhk) – Gemini 3 Pro multimodal: up to 4 input images, text/image output, configurable aspect ratio and resolution (requires `GOOGLE_API_KEY`).
 
 ## 🚀 Key Features
 
@@ -84,6 +85,13 @@ The standout feature of this collection - an advanced image loader that hopefull
   OPENAI_API_KEY=your_api_key_here
   ```
 - GPT nodes support gpt-4o, gpt-4o-mini, chatgpt-4o-latest, plus gpt-5 / gpt-5-mini / gpt-5-nano.
+
+### For Gemini API Node
+- Google API key in `.env` file:
+  ```
+  GOOGLE_API_KEY=your_api_key_here
+  ```
+- Install: `pip install google-genai`
 
 ### For Ollama API Node
 - Ollama server running locally (`ollama serve`)
