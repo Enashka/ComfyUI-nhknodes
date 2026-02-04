@@ -77,6 +77,7 @@ class GeminiImageChat:
                     "tooltip": "Aspect ratio for generated image"
                 }),
                 "image_size": ([
+                    "1K",
                     "2K",
                     "4K"
                 ], {

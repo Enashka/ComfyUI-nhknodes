@@ -36,7 +36,8 @@ The standout feature of this collection - an advanced image loader that hopefull
 - **📝 Simple Text Input** (nhk) – Minimal text entry node that just forwards its value.
 - **📄 Text Display** (nhk) – Shows any incoming string inside the UI while keeping the data flowing.
 - **🧩 Text Combiner** (nhk) – Unlimited text inputs with automatic sockets and configurable separator.
-- **🧷 Text Template** (nhk) – Lightweight templating (`The [text_1] walks in the [text_2]`) with numbered placeholders.
+- **🧷 Text Template** (nhk) – Lightweight templating (`The [a] walks in the [b]`) with 4 placeholders [a]-[d].
+- **🧷 Text Template Extended** (nhk) – Same as Text Template but with 8 placeholders [a]-[h].
 
 ### 🖼️ Image Processing (`nhk/image`)
 - **🖼️ Image Loader With Previews** (nhk) – The featured browser with searchable folders, previews, and sorting.
@@ -52,6 +53,7 @@ The standout feature of this collection - an advanced image loader that hopefull
 - **⏹️ Load 3x3 Grid Series** (nhk) – Loads images from a directory, treating each as a 3x3 grid. Extracts cells in reading order.
 
 ### ⚙️ Workflow Utilities (`nhk/utility`)
+- **📋 List Selector** (nhk) – Select from a list by index, use a default input, or batch the entire list. Index 0 = default, 1+ = list item. Batch mode outputs all items as an output list.
 - **🔄 Cycling Switch** (nhk) – Rotates through unlimited inputs, staying on each for a configurable number of runs.
 - **🚪 Interval Gate** (nhk) – Turns a branch on/off every N executions (perfect for “every 5th image” flows).
 - **🔀 Double Switch (In/Out)** (nhk) – Paired A/B switches that route image/text tuples together.
