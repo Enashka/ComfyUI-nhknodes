@@ -63,6 +63,8 @@ load_node_file("save_image_passthrough.py")
 load_node_file("image_evaluator.py")
 load_node_file("gemini_api.py")
 load_node_file("list_selector.py")
+load_node_file("rgba_flatten.py")
+load_node_file("load_text.py")
 
 print(f"NHK Nodes: Loaded {len(NODE_CLASS_MAPPINGS)} nodes: {list(NODE_CLASS_MAPPINGS.keys())}")
 
