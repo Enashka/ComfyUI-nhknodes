@@ -35,7 +35,7 @@ The standout feature of this collection - an advanced image loader that hopefull
 ### 🔤 Text Processing (`nhk/text`)
 - **📝 Simple Text Input** (nhk) – Minimal text entry node that just forwards its value.
 - **📄 Text Display** (nhk) – Shows any incoming string inside the UI while keeping the data flowing.
-- **📂 Load Text** (nhk) – Load text files with auto-incrementing index, repeat count, and wrap-around. Scans folders for numbered files (e.g., `saved_text_001.txt`).
+- **📂 Load Text Files** (nhk) – Load text files with auto-incrementing index, repeat count, and wrap-around. Scans folders for numbered files (e.g., `saved_text_001.txt`).
 - **🧩 Text Combiner** (nhk) – Unlimited text inputs with automatic sockets and configurable separator.
 - **🧷 Text Template** (nhk) – Lightweight templating (`The [a] walks in the [b]`) with 4 placeholders [a]-[d].
 - **🧷 Text Template Extended** (nhk) – Same as Text Template but with 8 placeholders [a]-[h].

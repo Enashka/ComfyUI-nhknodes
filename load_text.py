@@ -237,9 +237,9 @@ class LoadText:
 
 # Node registration
 NODE_CLASS_MAPPINGS = {
-    "LoadText": LoadText
+    "LoadTextFiles": LoadText
 }
 
 NODE_DISPLAY_NAME_MAPPINGS = {
-    "LoadText": "📂 Load Text (nhk)"
+    "LoadTextFiles": "📂 Load Text Files (nhk)"
 }
