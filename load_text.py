@@ -100,19 +100,17 @@ class LoadText:
             return {}
 
         # Convert counter format to regex pattern
-        # Handle different counter format variations
-        if "{counter:03d}" in counter_format:
-            counter_pattern = counter_format.replace("{counter:03d}", r"(\d{3})")
-        elif "{counter:02d}" in counter_format:
-            counter_pattern = counter_format.replace("{counter:02d}", r"(\d{2})")
-        elif "{counter:01d}" in counter_format:
-            counter_pattern = counter_format.replace("{counter:01d}", r"(\d{1})")
+        # Match {counter:XXd} with any digit width, or plain {counter}
+        width_match = re.search(r"\{counter:0?(\d+)d\}", counter_format)
+        if width_match:
+            width = int(width_match.group(1))
+            digit_re = r"(\d{" + str(width) + "})"
+            counter_pattern = counter_format.replace(width_match.group(0), digit_re)
         elif "{counter:d}" in counter_format:
             counter_pattern = counter_format.replace("{counter:d}", r"(\d+)")
         elif "{counter}" in counter_format:
             counter_pattern = counter_format.replace("{counter}", r"(\d+)")
         else:
-            # Fallback - assume simple numeric pattern
             counter_pattern = counter_format + r"(\d+)" if counter_format else r"(\d+)"
 
         # Create full regex pattern
