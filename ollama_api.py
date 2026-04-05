@@ -26,17 +26,18 @@ class OllamaChat:
         return {
             "required": {
                 "model": ([
-                    "qwen3:8b",
-                    "qwen3:30b",
-                    "qwen3:30b-a3b-instruct-2507-q4_K_M",
+                    "gemma4:31b",
+                    "gemma4:26b",
+                    "qwen3.5:9b",
+                    "qwen3.5:27b",
+                    "qwen3.5:35b-a3b",
                     "qwen3-vl:8b",
                     "llama3.2-vision:11b",
                     "gemma3-27b-it-q8",
-                    "devstral:24b-small-2505-q8_0",
-                    "moondream:latest",
-                    "minicpm-v:latest"
+                    "devstral-small-2:24b",
+                    "minicpm-v:8b"
                 ], {
-                    "default": "qwen3:8b",
+                    "default": "gemma4:31b",
                     "tooltip": "Local Ollama model to use (models with 'vl' or 'vision' support images)"
                 }),
                 "system_message": ("STRING", {

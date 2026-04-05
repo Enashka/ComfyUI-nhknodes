@@ -59,6 +59,7 @@ class SizePicker:
                     "1536x864 (16:9 Flux/ZIT)",
                     "1344x768 (16:9 SDXL)",
                     "1280x720 (16:9 HD/ZIT)",
+                    "1024x576 (16:9)",
                     "640x360 (16:9)",
 
                     # 3:2 Landscape
