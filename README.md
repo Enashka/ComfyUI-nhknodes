@@ -53,6 +53,7 @@ The standout feature of this collection - an advanced image loader that hopefull
 - **⏹️ Load 2x2 Grid Series** (nhk) – Loads images from a directory, treating each as a 2x2 grid. Extracts cells in reading order.
 - **⏹️ Load 3x3 Grid Series** (nhk) – Loads images from a directory, treating each as a 3x3 grid. Extracts cells in reading order.
 - **🎨 RGBA Flatten** (nhk) – Composites RGBA over solid background color, eliminating alpha artifacts and color bleed.
+- **🎯 Crop To Mask** (nhk) – Crops image and mask to the mask bbox with a single padding value. Outputs bbox for stitch-back.
 
 ### ⚙️ Workflow Utilities (`nhk/utility`)
 - **📋 List Selector** (nhk) – Select from a list by index, use a default input, or batch the entire list. Index 0 = default, 1+ = list item. Batch mode outputs all items as an output list.
