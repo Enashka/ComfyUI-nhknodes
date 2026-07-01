@@ -1,6 +1,6 @@
 """
 Gemini API node for image generation and multimodal chat.
-Supports up to 4 input images, text prompts, and outputs both image and text.
+Supports up to 4 input images, text prompts, image generation, and vision text output.
 Requires GOOGLE_API_KEY in .env file.
 Category: nhk/ai
 """
@@ -20,6 +20,16 @@ from google.genai import types
 from dotenv import load_dotenv
 _env_path = os.path.join(os.path.dirname(os.path.realpath(__file__)), ".env")
 load_dotenv(_env_path)
+
+IMAGE_MODELS = {
+    "gemini-3.1-flash-image",
+    "gemini-3-pro-image",
+    "gemini-2.5-flash-image",
+}
+
+TEXT_OUTPUT_ONLY_MODELS = {
+    "gemini-3.5-flash",
+}
 
 
 class GeminiImageChat:
@@ -43,11 +53,13 @@ class GeminiImageChat:
             },
             "optional": {
                 "model": ([
-                    "gemini-3-pro-image-preview",
+                    "gemini-3.1-flash-image",
+                    "gemini-3-pro-image",
+                    "gemini-3.5-flash",
                     "gemini-2.5-flash-image"
                 ], {
-                    "default": "gemini-3-pro-image-preview",
-                    "tooltip": "Gemini model (Pro = higher quality, Flash = faster)"
+                    "default": "gemini-3.1-flash-image",
+                    "tooltip": "Gemini model (Image models generate/edit images; 3.5 Flash analyzes images and returns text)"
                 }),
                 "image_1": ("IMAGE", {
                     "tooltip": "First optional input image"
@@ -112,7 +124,7 @@ class GeminiImageChat:
     RETURN_NAMES = ("image", "text",)
     FUNCTION = "generate"
     CATEGORY = "nhk/ai"
-    DESCRIPTION = "Generate images and text with Gemini"
+    DESCRIPTION = "Generate images or analyze images with Gemini"
 
     @classmethod
     def IS_CHANGED(cls, **kwargs):
@@ -136,7 +148,7 @@ class GeminiImageChat:
         tensor = torch.from_numpy(numpy_array).unsqueeze(0)
         return tensor
 
-    def generate(self, system_prompt, user_prompt, model="gemini-3-pro-image-preview",
+    def generate(self, system_prompt, user_prompt, model="gemini-3.1-flash-image",
                  image_1=None, image_2=None, image_3=None, image_4=None,
                  aspect_ratio="3:4", image_size="2K", output_mode="text_and_image",
                  temperature=1.0, seed=0):
@@ -164,26 +176,28 @@ class GeminiImageChat:
                     pil_img = self.tensor_to_pil(img)
                     contents.append(pil_img)
 
-            # Configure response modalities
-            if output_mode == "text_only":
+            # Configure response modalities. Gemini 3.5 Flash accepts images as
+            # input but only returns text, so do not request image output from it.
+            if model in TEXT_OUTPUT_ONLY_MODELS:
+                modalities = ['TEXT']
+            elif output_mode == "text_only":
                 modalities = ['TEXT']
             elif output_mode == "image_only":
                 modalities = ['IMAGE']
             else:
                 modalities = ['TEXT', 'IMAGE']
 
-            # Build image config - Flash doesn't support imageSize
-            if "flash" in model:
-                image_cfg = types.ImageConfig(aspectRatio=aspect_ratio)
-            else:
-                image_cfg = types.ImageConfig(aspectRatio=aspect_ratio, imageSize=image_size)
-
             # Build generation config with temperature and seed
             config_params = {
                 "response_modalities": modalities,
-                "image_config": image_cfg,
                 "temperature": temperature
             }
+
+            if model in IMAGE_MODELS:
+                image_config_params = {"aspectRatio": aspect_ratio}
+                if model != "gemini-2.5-flash-image":
+                    image_config_params["imageSize"] = image_size
+                config_params["image_config"] = types.ImageConfig(**image_config_params)
 
             # Only set seed if non-zero (0 means random)
             if seed != 0:

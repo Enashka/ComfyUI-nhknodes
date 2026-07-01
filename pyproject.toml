@@ -20,7 +20,7 @@ license = {file = "LICENSE"}
 #     "Environment :: GPU :: Apple Metal",    # Apple Metal support
 # ]
 
-dependencies = ["openai>=1.101.0", "pillow", "requests", "torch", "numpy"]
+dependencies = ["openai>=1.101.0", "google-genai", "python-dotenv", "pillow", "requests", "torch", "numpy"]
 
 [project.urls]
 Repository = "https://github.com/Enashka/ComfyUI-nhknodes"

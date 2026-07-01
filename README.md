@@ -71,7 +71,7 @@ The standout feature of this collection - an advanced image loader that hopefull
 ### 🤖 AI & Media (`nhk/ai`)
 - **🦙 Ollama API** (nhk) – Local chat/vision models with hidden thinking output and optional image prompts.
 - **🤖 OpenAI API** (nhk) – GPT‑4/GPT‑5 chat with optional vision input (requires `OPENAI_API_KEY`).
-- **🍌 Gemini API** (nhk) – Gemini 3 Pro multimodal: up to 4 input images, text/image output, configurable aspect ratio and resolution (requires `GOOGLE_API_KEY`).
+- **🍌 Gemini API** (nhk) – Gemini image-gen models (3.1-flash, 3-pro, 2.5-flash) and vision-text analysis (3.5-flash); up to 4 input images, aspect ratio, resolution (requires `GOOGLE_API_KEY`).
 
 ## 🚀 Key Features
 
