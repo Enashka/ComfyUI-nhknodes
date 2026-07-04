@@ -19,26 +19,60 @@ from PIL import Image
 import torch
 import numpy as np
 
+OLLAMA_HOST = "http://localhost:11434"
+_MODEL_CACHE_FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)), ".ollama_models_cache.json")
+
+# Last-resort list, used only on the very first load if Ollama is down and no cache exists.
+_FALLBACK_MODELS = [
+    "gemma4:31b", "gemma4:26b", "gemma4:12b", "qwen3.5:9b", "qwen3.5:27b", "qwen3.5:35b-a3b",
+    "qwen3-vl:8b", "llama3.2-vision:11b", "gemma3-27b-it-q8", "devstral-small-2:24b", "minicpm-v:8b",
+]
+
+def _read_model_cache():
+    try:
+        with open(_MODEL_CACHE_FILE) as f:
+            data = json.load(f)
+        return data if isinstance(data, list) and data else []
+    except Exception:
+        return []
+
+def _write_model_cache(models):
+    try:
+        with open(_MODEL_CACHE_FILE, "w") as f:
+            json.dump(models, f)
+    except Exception:
+        pass
+
+def get_ollama_models():
+    """Return installed Ollama models by querying /api/tags, caching the last good result.
+
+    INPUT_TYPES runs during graph load AND prompt validation. If a transient outage (e.g.
+    `purge_after_use` stopped the service, or a slow response) dropped models from the list,
+    a saved model value would be flagged 'not available'. So on query failure we fall back to
+    the cached list (what was last installed) — never the incomplete static list — which keeps
+    the selected model valid. Newly `ollama pull`ed models still appear on the next good query."""
+    try:
+        resp = requests.get(f"{OLLAMA_HOST}/api/tags", timeout=2)
+        resp.raise_for_status()
+        live = sorted({m["name"] for m in resp.json().get("models", []) if m.get("name")})
+        if live:
+            _write_model_cache(live)
+            return live
+    except Exception:
+        pass
+    return _read_model_cache() or _FALLBACK_MODELS
+
 class OllamaChat:
 
     @classmethod
     def INPUT_TYPES(cls):
+        models = get_ollama_models()
+        default_model = "gemma4:31b" if "gemma4:31b" in models else models[0]
         return {
             "required": {
-                "model": ([
-                    "gemma4:31b",
-                    "gemma4:26b",
-                    "qwen3.5:9b",
-                    "qwen3.5:27b",
-                    "qwen3.5:35b-a3b",
-                    "qwen3-vl:8b",
-                    "llama3.2-vision:11b",
-                    "gemma3-27b-it-q8",
-                    "devstral-small-2:24b",
-                    "minicpm-v:8b"
-                ], {
-                    "default": "gemma4:31b",
-                    "tooltip": "Local Ollama model to use (models with 'vl' or 'vision' support images)"
+                "model": (models, {
+                    "default": default_model,
+                    "tooltip": "Local Ollama model — list is pulled live from your Ollama server. Run `ollama pull <model>` to add more. Models with vision/audio (e.g. gemma4, qwen3-vl, llama3.2-vision, minicpm-v) accept the image input."
                 }),
                 "system_message": ("STRING", {
                     "multiline": True,

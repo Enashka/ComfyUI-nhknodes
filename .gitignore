@@ -33,4 +33,4 @@ logs/
 CLAUDE.md
 
 # Python bytecode
-__pycache__/
+__pycache__/.ollama_models_cache.json
