@@ -8,3 +8,4 @@ import "./js/image_loader_previews.js";
 import "./js/visual_resizer_live.js";
 import "./js/play_sound.js";
 import "./js/bookmark.js";
+import "./js/memory_clean.js";
