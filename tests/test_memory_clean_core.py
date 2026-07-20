@@ -76,3 +76,48 @@ def test_run_steps_continues_after_failure():
     assert "ValueError: nope" in results[0]["error"]
     assert results[1]["ok"] is True
     assert calls == ["b"]
+
+
+class _FakeClock:
+    def __init__(self):
+        self.t = 0.0
+
+    def now(self):
+        return self.t
+
+    def sleep(self, seconds):
+        self.t += seconds
+
+
+def test_wait_returns_true_when_already_consumed():
+    clock = _FakeClock()
+    ok = core.wait_for_flags_consumed(
+        lambda reset: {}, ["free_memory"],
+        timeout_s=1.0, poll_s=0.01, sleep_fn=clock.sleep, now_fn=clock.now,
+    )
+    assert ok is True
+
+
+def test_wait_polls_until_flag_clears():
+    clock = _FakeClock()
+    state = {"polls": 0}
+
+    def get_flags(reset):
+        state["polls"] += 1
+        return {"free_memory": True} if state["polls"] < 3 else {}
+
+    ok = core.wait_for_flags_consumed(
+        lambda reset=False: get_flags(reset), ["free_memory"],
+        timeout_s=1.0, poll_s=0.01, sleep_fn=clock.sleep, now_fn=clock.now,
+    )
+    assert ok is True
+    assert state["polls"] == 3
+
+
+def test_wait_returns_false_on_timeout():
+    clock = _FakeClock()
+    ok = core.wait_for_flags_consumed(
+        lambda reset: {"free_memory": True}, ["free_memory"],
+        timeout_s=0.05, poll_s=0.01, sleep_fn=clock.sleep, now_fn=clock.now,
+    )
+    assert ok is False

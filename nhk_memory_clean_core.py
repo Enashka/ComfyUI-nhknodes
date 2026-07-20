@@ -53,3 +53,25 @@ def run_steps(steps):
                 "error": f"{type(exc).__name__}: {exc}",
             })
     return results
+
+
+def wait_for_flags_consumed(get_flags, keys, timeout_s=5.0, poll_s=0.02,
+                            sleep_fn=None, now_fn=None):
+    """Block until none of `keys` remain pending, or the timeout expires.
+
+    get_flags is called as get_flags(reset=False) and must return a dict copy.
+    Returns True if the flags were consumed, False on timeout.
+    """
+    import time
+
+    sleep_fn = sleep_fn or time.sleep
+    now_fn = now_fn or time.monotonic
+    deadline = now_fn() + timeout_s
+
+    while True:
+        pending = get_flags(reset=False)
+        if not any(key in pending for key in keys):
+            return True
+        if now_fn() >= deadline:
+            return False
+        sleep_fn(poll_s)
