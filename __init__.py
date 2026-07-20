@@ -66,6 +66,7 @@ load_node_file("list_selector.py")
 load_node_file("rgba_flatten.py")
 load_node_file("load_text.py")
 load_node_file("crop_to_mask.py")
+load_node_file("nhk_memory_clean.py")
 
 print(f"NHK Nodes: Loaded {len(NODE_CLASS_MAPPINGS)} nodes: {list(NODE_CLASS_MAPPINGS.keys())}")
 
