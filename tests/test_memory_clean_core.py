@@ -47,3 +47,32 @@ def test_trim_malloc_none_when_not_glibc():
         raise OSError("no libc here")
 
     assert core.trim_malloc(loader) is None
+
+
+def test_run_steps_runs_in_order():
+    calls = []
+    core.run_steps([
+        ("a", lambda: calls.append("a")),
+        ("b", lambda: calls.append("b")),
+    ])
+    assert calls == ["a", "b"]
+
+
+def test_run_steps_records_result():
+    assert core.run_steps([("a", lambda: 42)]) == [
+        {"step": "a", "ok": True, "result": 42}
+    ]
+
+
+def test_run_steps_continues_after_failure():
+    calls = []
+
+    def boom():
+        raise ValueError("nope")
+
+    results = core.run_steps([("a", boom), ("b", lambda: calls.append("b"))])
+
+    assert results[0]["ok"] is False
+    assert "ValueError: nope" in results[0]["error"]
+    assert results[1]["ok"] is True
+    assert calls == ["b"]

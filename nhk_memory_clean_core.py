@@ -35,3 +35,21 @@ def trim_malloc(loader=None):
         return bool(libc.malloc_trim(0))
     except (OSError, AttributeError):
         return None
+
+
+def run_steps(steps):
+    """Run (name, callable) pairs in order, guarding each one.
+
+    A step that raises is recorded and the remaining steps still run.
+    """
+    results = []
+    for name, fn in steps:
+        try:
+            results.append({"step": name, "ok": True, "result": fn()})
+        except Exception as exc:
+            results.append({
+                "step": name,
+                "ok": False,
+                "error": f"{type(exc).__name__}: {exc}",
+            })
+    return results
