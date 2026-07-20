@@ -4,6 +4,8 @@ Pure helpers with no ComfyUI or torch imports, so they can be unit-tested with a
 plain Python interpreter. nhk_memory_clean.py supplies the live ComfyUI callables.
 """
 
+import weakref
+
 
 def snapshot(ram_available_fn, vram_free_fn):
     """Capture free RAM and VRAM in bytes.
@@ -75,3 +77,42 @@ def wait_for_flags_consumed(get_flags, keys, timeout_s=5.0, poll_s=0.02,
         if now_fn() >= deadline:
             return False
         sleep_fn(poll_s)
+
+
+class CacheCapture:
+    """Capture the live node-output cache by wrapping set_ram_cache_release_state.
+
+    ComfyUI hands the release callback a bound method of the RAMPressureCache, then
+    unregisters it in a finally block once the prompt ends. Wrapping the setter is
+    the only way to keep a handle on that cache while idle.
+
+    The handle is a weakref on purpose: a strong reference would keep a stale
+    CacheSet alive after /free rebuilds it.
+    """
+
+    def __init__(self):
+        self._ref = None
+        self.installed_over = None
+
+    def install(self, memory_management_module):
+        """Wrap the module's setter. Safe to call repeatedly."""
+        original = memory_management_module.set_ram_cache_release_state
+        if getattr(original, "_nhk_capture", None) is self:
+            return
+
+        def wrapped(callback, headroom):
+            if callback is not None:
+                owner = getattr(callback, "__self__", None)
+                if owner is not None:
+                    self._ref = weakref.ref(owner)
+            return original(callback, headroom)
+
+        wrapped._nhk_capture = self
+        self.installed_over = original
+        memory_management_module.set_ram_cache_release_state = wrapped
+
+    def get(self):
+        """Return the captured cache, or None if unavailable or collected."""
+        if self._ref is None:
+            return None
+        return self._ref()

@@ -1,3 +1,4 @@
+import gc as _gc
 import importlib.util
 import os
 import sys
@@ -121,3 +122,79 @@ def test_wait_returns_false_on_timeout():
         timeout_s=0.05, poll_s=0.01, sleep_fn=clock.sleep, now_fn=clock.now,
     )
     assert ok is False
+
+
+class _FakeModule:
+    def __init__(self):
+        self.received = []
+
+        def set_ram_cache_release_state(callback, headroom):
+            self.received.append((callback, headroom))
+
+        self.set_ram_cache_release_state = set_ram_cache_release_state
+
+
+class _FakeCache:
+    def ram_release(self, target, free_active=False):
+        return 0
+
+
+def test_capture_stores_callback_owner():
+    module = _FakeModule()
+    capture = core.CacheCapture()
+    capture.install(module)
+
+    cache = _FakeCache()
+    module.set_ram_cache_release_state(cache.ram_release, 123)
+
+    assert capture.get() is cache
+
+
+def test_capture_delegates_to_original():
+    module = _FakeModule()
+    original = module.set_ram_cache_release_state
+    capture = core.CacheCapture()
+    capture.install(module)
+
+    cache = _FakeCache()
+    module.set_ram_cache_release_state(cache.ram_release, 123)
+
+    assert module.set_ram_cache_release_state is not original
+    assert capture.installed_over is original
+    assert module.received == [(cache.ram_release, 123)]
+
+
+def test_capture_ignores_none_callback():
+    module = _FakeModule()
+    capture = core.CacheCapture()
+    capture.install(module)
+
+    cache = _FakeCache()
+    module.set_ram_cache_release_state(cache.ram_release, 123)
+    module.set_ram_cache_release_state(None, 0)
+
+    assert capture.get() is cache
+
+
+def test_capture_holds_only_a_weak_reference():
+    module = _FakeModule()
+    capture = core.CacheCapture()
+    capture.install(module)
+
+    cache = _FakeCache()
+    module.set_ram_cache_release_state(cache.ram_release, 123)
+    module.received.clear()
+    del cache
+    _gc.collect()
+
+    assert capture.get() is None
+
+
+def test_capture_install_is_idempotent():
+    module = _FakeModule()
+    capture = core.CacheCapture()
+    capture.install(module)
+    wrapped_once = module.set_ram_cache_release_state
+    capture.install(module)
+
+    assert module.set_ram_cache_release_state is wrapped_once
