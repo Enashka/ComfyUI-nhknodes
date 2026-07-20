@@ -7,15 +7,20 @@ plain Python interpreter. nhk_memory_clean.py supplies the live ComfyUI callable
 import weakref
 
 
-def snapshot(ram_available_fn, vram_free_fn):
-    """Capture free RAM and VRAM in bytes.
+def snapshot(ram_available_fn, vram_free_fn, rss_fn):
+    """Capture free RAM, free VRAM, and this process's RSS, in bytes.
 
-    Both arguments are zero-arg callables. vram_free_fn may return None when CUDA
-    is unavailable.
+    All three arguments are zero-arg callables. vram_free_fn may return None when
+    CUDA is unavailable.
+
+    rss matters because ram_available is system-wide and therefore confounded by
+    every other process on the machine. RSS is the honest measure of what ComfyUI
+    itself handed back.
     """
     return {
         "ram_available": ram_available_fn(),
         "vram_free": vram_free_fn(),
+        "rss": rss_fn(),
     }
 
 

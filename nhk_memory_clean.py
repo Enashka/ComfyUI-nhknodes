@@ -46,8 +46,15 @@ def _vram_free():
     return torch.cuda.mem_get_info()[0]
 
 
+_proc = psutil.Process()
+
+
+def _rss():
+    return _proc.memory_info().rss
+
+
 def _snapshot():
-    return core.snapshot(_ram_available, _vram_free)
+    return core.snapshot(_ram_available, _vram_free, _rss)
 
 
 def _is_executing():
@@ -136,6 +143,9 @@ async def _clean(tier):
         "before": before,
         "after": after,
         "ram_freed": after["ram_available"] - before["ram_available"],
+        # The honest figure: system-wide available RAM moves with every other
+        # process, RSS only moves when ComfyUI itself gives memory back.
+        "rss_freed": before["rss"] - after["rss"],
         "vram_freed": (
             None if after["vram_free"] is None
             else after["vram_free"] - before["vram_free"]

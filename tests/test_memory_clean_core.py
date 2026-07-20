@@ -12,15 +12,16 @@ sys.modules["nhk_memory_clean_core"] = core
 _spec.loader.exec_module(core)
 
 
-def test_snapshot_reads_both_sources():
-    snap = core.snapshot(lambda: 100, lambda: 200)
-    assert snap == {"ram_available": 100, "vram_free": 200}
+def test_snapshot_reads_all_sources():
+    snap = core.snapshot(lambda: 100, lambda: 200, lambda: 300)
+    assert snap == {"ram_available": 100, "vram_free": 200, "rss": 300}
 
 
 def test_snapshot_allows_missing_vram():
-    snap = core.snapshot(lambda: 100, lambda: None)
+    snap = core.snapshot(lambda: 100, lambda: None, lambda: 300)
     assert snap["vram_free"] is None
     assert snap["ram_available"] == 100
+    assert snap["rss"] == 300
 
 
 class _FakeLibc:
