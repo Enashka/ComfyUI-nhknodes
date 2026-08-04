@@ -5,6 +5,9 @@ Perfect for quality control, A/B testing, and conditional processing.
 Category: nhk/utility
 """
 
+from comfy_execution.graph_utils import ExecutionBlocker
+
+
 class AnyType(str):
     """Wildcard type that matches any input"""
     def __ne__(self, __value: object) -> bool:
@@ -159,40 +162,33 @@ class ConditionalStop:
                     "default": True,
                     "tooltip": "True = continue, False = stop execution"
                 }),
-                "stop_message": ("STRING", {
-                    "default": "Quality check failed - stopping workflow",
-                    "multiline": False,
-                    "tooltip": "Message to display when stopping"
-                }),
             }
         }
 
-    RETURN_TYPES = (anyType, "STRING")
-    RETURN_NAMES = ("output", "status")
+    RETURN_TYPES = (anyType,)
+    RETURN_NAMES = ("output",)
     OUTPUT_TOOLTIPS = (
-        "Input passthrough if condition is True",
-        "Execution status message"
+        "Input passthrough if condition is True, blocked if False",
     )
     FUNCTION = "execute"
     CATEGORY = "nhk/wip"
-    DESCRIPTION = "Stops workflow execution based on condition"
+    DESCRIPTION = "Silently stops workflow execution based on condition"
 
-    def execute(self, input, condition, stop_message):
-        """Pass through input if condition is True, otherwise raise error"""
+    def execute(self, input, condition):
+        """Pass through input if condition is True, otherwise block downstream execution"""
         if condition:
-            status = "Condition passed - continuing workflow"
-            print(f"ConditionalStop: {status}")
-            return (input, status)
+            print("ConditionalStop: condition passed - continuing workflow")
+            return (input,)
         else:
-            print(f"ConditionalStop: {stop_message}")
-            # Raise an error to stop execution
-            raise ValueError(f"ConditionalStop: {stop_message}")
+            print("ConditionalStop: condition failed - blocking downstream execution")
+            # None message = block silently, no error dialog (batch-friendly)
+            return ExecutionBlocker(None)
 
 
 class ConditionalSplitter:
     """
     Splits input to two outputs based on boolean condition.
-    Only the selected output chain executes (lazy evaluation).
+    The inactive output is blocked, so only the selected chain executes.
     Perfect for routing one input to different processing pipelines.
     """
 
@@ -216,32 +212,25 @@ class ConditionalSplitter:
     RETURN_TYPES = (anyType, anyType, "STRING")
     RETURN_NAMES = ("pass_output", "fail_output", "info")
     OUTPUT_TOOLTIPS = (
-        "Output when condition is True (lazy - only executes if condition=True)",
-        "Output when condition is False (lazy - only executes if condition=False)",
+        "Input when condition is True, blocked when False",
+        "Input when condition is False, blocked when True",
         "Which output is active"
     )
     FUNCTION = "split"
     CATEGORY = "nhk/wip"
-    DESCRIPTION = "Splits input to two outputs based on condition with lazy evaluation"
-
-    def check_lazy_status(self, input=None, condition=True):
-        """Only evaluate the output that will be used based on condition"""
-        # This tells ComfyUI which outputs are needed
-        # Return empty list means "execute normally"
-        # We can't selectively disable outputs, so we return empty list
-        # and rely on downstream lazy evaluation to prevent execution
-        return []
+    DESCRIPTION = "Splits input to two outputs based on condition, blocking the inactive one"
 
     def split(self, input, condition):
-        """Route input to appropriate output based on condition"""
+        """Route input to the matching output and block the other chain"""
+        # None message = block silently, no error dialog (batch-friendly)
         if condition:
             info = "Routing to pass_output"
             print(f"ConditionalSplitter: {info}")
-            return (input, input, info)  # Both outputs get input, lazy eval handles execution
+            return (input, ExecutionBlocker(None), info)
         else:
             info = "Routing to fail_output"
             print(f"ConditionalSplitter: {info}")
-            return (input, input, info)
+            return (ExecutionBlocker(None), input, info)
 
 
 # Node registration

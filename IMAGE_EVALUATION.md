@@ -2,7 +2,7 @@
 
 > ComfyUI executes **backward** from terminals (`OUTPUT_NODE=True`). Only chains that lead into a terminal are pulled into the graph. The WIP nodes here rely on that lazy, pull-based planning, so:
 > - Always end your evaluation branches in a real terminal (e.g., standard Save/Preview or any node with `OUTPUT_NODE=True`). The passthrough Save/Preview here are not terminals by themselves.
-> - Conditional Router/Splitter/Stop use `check_lazy_status` to keep only the active branch; inactive branches won’t execute.
+> - Conditional Router uses `check_lazy_status` to pull only the active input branch. Conditional Splitter/Stop use `ExecutionBlocker` to silently block the chains that shouldn’t run — no error dialog, so batches keep going.
 > - If nothing seems to run, you likely don’t have a terminal reachable from the evaluator branch.
 
 AI-powered image quality control using Qwen3VL for workflow automation.
@@ -67,12 +67,11 @@ Selects between two input pairs based on boolean. Only selected pair executes.
 ### 🛑 Conditional Stop
 **nhk/utility**
 
-Halts workflow if condition is False.
+Silently halts the downstream chain if condition is False. No error dialog, so batches keep running.
 
 **Inputs:**
 - `input` - Any data
 - `condition` - True = continue, False = stop
-- `stop_message` - Error message
 
 ---
 
